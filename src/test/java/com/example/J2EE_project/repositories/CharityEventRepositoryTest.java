@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +40,12 @@ public class CharityEventRepositoryTest {
     public void findByID() {
         CharityEvent charityEvent1 = charityEventRepository.findById(UUID.fromString(charityEvent.getId().toString())).get();
         System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(charityEvent1.getStartTime()));
+        assertThat(charityEvent1.getName()).isEqualTo(charityEvent.getName());
+    }
+
+    @Test
+    public void findCharityEventWithOutPost(){
+        CharityEvent charityEvent1 = charityEventRepository.findAllCharityEventWithoutPost(PageRequest.of(0,10)).getContent().get(0);
         assertThat(charityEvent1.getName()).isEqualTo(charityEvent.getName());
     }
 }

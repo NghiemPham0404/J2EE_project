@@ -2,6 +2,7 @@ package com.example.J2EE_project.services;
 
 import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.repositories.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,8 @@ import java.util.List;
 @Service
 public class AccountService implements serviceInterface<Account, Integer>{
 
+    @Autowired
     AccountRepository accountRepository;
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
 
     @Override
     public String create(Account account) {
