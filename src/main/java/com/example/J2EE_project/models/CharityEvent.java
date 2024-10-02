@@ -50,5 +50,16 @@ public class CharityEvent {
 
     @OneToMany(mappedBy = "charityEvent")
     List<Post> posts;
+
+    @OneToMany(mappedBy = "charityEvent")
+    List<TransferSession> transferSessions;
+
+    public BigDecimal getCurrentAmount() {
+        BigDecimal currentAmount = new BigDecimal(0);
+        for(TransferSession session : transferSessions) {
+            currentAmount = currentAmount.add(session.getAmount());
+        }
+        return currentAmount;
+    }
 }
 
