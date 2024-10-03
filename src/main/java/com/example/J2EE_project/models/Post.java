@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,6 +39,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "ac_id")
     private Account account;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostView> postViews;
 
     @PrePersist
     public void generateUUID() {

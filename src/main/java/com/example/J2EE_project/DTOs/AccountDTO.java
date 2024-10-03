@@ -22,11 +22,15 @@ public class AccountDTO {
     @Getter
     private String email;
 
+    @Getter
+    private boolean active;
+
     public AccountDTO(Account account){
         this.id = account.getId();
         this.name = account.getName();
         this.username = account.getUsername();
         this.password = account.getPassword();
         this.email = account.getEmail();
+        this.active = account.isActive();
     }
 }

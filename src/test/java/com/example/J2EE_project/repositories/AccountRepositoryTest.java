@@ -23,6 +23,7 @@ public class AccountRepositoryTest {
         account = new Account();
         account.setUsername("admin");
         account.setPassword("admin");
+		account.setActive(true);
         accountRepository.save(account);
 	}
 
@@ -37,8 +38,8 @@ public class AccountRepositoryTest {
 	void listAccount() {
 		List<Account> accounts = accountRepository.findAll();
         Account account1 = accounts.get(0);
-        assertThat(account1.getId()).isEqualTo(account.getId());
-		System.out.println(account1.getId());
+		System.out.println("active : " + account1.isActive());
+        assertThat(account1.isActive()).isEqualTo(Boolean.TRUE);
 	}
 
 }
