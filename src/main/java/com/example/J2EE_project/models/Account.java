@@ -28,6 +28,9 @@ public class Account {
     @Column
     private String email;
 
+    @Column
+    private boolean active;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
