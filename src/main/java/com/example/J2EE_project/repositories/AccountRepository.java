@@ -2,6 +2,7 @@ package com.example.J2EE_project.repositories;
 
 import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.models.CharityEvent;
+import com.example.J2EE_project.models.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,6 @@ public interface AccountRepository extends JpaRepository<Account, Integer>, Crud
      */
     @Query("Select a from Account a where a.role.id != 1 and a.id != :id")
     Page<Account> listAllManagableAccount(int id, Pageable pageable);
+
+    Page<Account> findByRole(Role role, Pageable pageable);
 }
