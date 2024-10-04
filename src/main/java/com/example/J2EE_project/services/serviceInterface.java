@@ -12,7 +12,7 @@ public interface serviceInterface <T, ID>{
     String delete(ID id);
     List<T> listAll();
     List<T> listAllNewest();
-    Page<T> listAll(Pageable pageable);
-    Page<T> listAllNewest(Pageable pageable);
+    Page<T> listAll(int page);
+    Page<T> listAllNewest(int page);
     T get(ID id);
 }
