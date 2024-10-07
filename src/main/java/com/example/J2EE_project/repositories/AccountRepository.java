@@ -39,4 +39,24 @@ public interface AccountRepository extends JpaRepository<Account, Integer>, Crud
      @Modifying
      @Query("update Account u set u.active = :active  where u.id = :id")
      void updateActiveStatus (int id, boolean active);
+
+     /**
+     *Đổi mật khẩu
+     */
+     @Modifying
+     @Query("update Account u set u.password = :password  where u.id = :id")
+     void updatePassword (int id, String password);
+
+     /**
+     *Đổi email
+     */
+     @Modifying
+     @Query("update Account u set u.email = :email  where u.id = :id")
+     void updateEmail (int id, String email);
+
+     /**
+      * Đăng nhập
+      * */
+     @Query("Select a from Account a where a.username = :username and a.password = :password")
+     Account login(String username, String password);
 }
