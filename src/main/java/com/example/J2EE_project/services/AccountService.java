@@ -1,5 +1,6 @@
 package com.example.J2EE_project.services;
 
+import com.example.J2EE_project.DTOs.AccountDTO;
 import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class AccountService implements serviceInterface<Account, Integer>{
+public class AccountService implements serviceInterface<AccountDTO, Integer>{
 
     @Autowired
     AccountRepository accountRepository;
@@ -22,7 +23,8 @@ public class AccountService implements serviceInterface<Account, Integer>{
      * Thêm mới một tài khoản
      */
     @Override
-    public String create(Account account) {
+    public String create(AccountDTO accountDTO) {
+        Account account = accountDTO.toAccount();
         accountRepository.save(account);
         return "account created successfully";
     }
@@ -31,7 +33,8 @@ public class AccountService implements serviceInterface<Account, Integer>{
      *Cập nhật thông tin tài khoản
      */
     @Override
-    public String update(Account account) {
+    public String update(AccountDTO accountDTO) {
+        Account account = accountDTO.toAccount();
         accountRepository.save(account);
         return "account updated successfully";
     }
@@ -49,31 +52,32 @@ public class AccountService implements serviceInterface<Account, Integer>{
      *Lấy tài khoản theo id
      */
     @Override
-    public Account get(Integer id) {
+    public AccountDTO get(Integer id) {
         Account account = accountRepository.findById(id).get();
+        AccountDTO accountDTO = new AccountDTO(account);
         System.out.println("Ten la : "+ account.getName());
-        return account;
+        return accountDTO;
     }
 
-    public Page<Account> listAllAccount(int id, int page){
+    public Page<AccountDTO> listAllAccount(int id, int page){
         Pageable pageable = PageRequest.of(page, 10);
-        return accountRepository.listAllAccount(id, pageable);
+        return accountRepository.listAllAccount(id, pageable).map(AccountDTO::new);
     }
 
     /**
      *Lấy tất cả tài khoản theo tên
      */
-    public Page<Account> listByName(String name, int page) {
+    public Page<AccountDTO> listByName(String name, int page) {
         Pageable pageable = PageRequest.of(page, 10);
-        return accountRepository.findByNameIgnoreCase(name, pageable);
+        return accountRepository.findByNameIgnoreCase(name, pageable).map(AccountDTO::new);
     }
 
      /**
      *Lấy tất cả tài khoản theo role
      */
-    public Page<Account> listByRole(int role_id, int page) {
+    public Page<AccountDTO> listByRole(int role_id, int page) {
         Pageable pageable = PageRequest.of(page, 10);
-        return accountRepository.findByRole(role_id, pageable);
+        return accountRepository.findByRole(role_id, pageable).map(AccountDTO::new);
     }
 
     /**
@@ -91,22 +95,22 @@ public class AccountService implements serviceInterface<Account, Integer>{
     }
 
     @Override
-    public List<Account> listAll() {
+    public List<AccountDTO> listAll() {
         return null;
     }
 
     @Override
-    public List<Account> listAllNewest() {
+    public List<AccountDTO> listAllNewest() {
         return null;
     }
 
     @Override
-    public Page<Account> listAll(int page) {
+    public Page<AccountDTO> listAll(int page) {
        return null;
     }
 
     @Override
-    public Page<Account> listAllNewest(int page) {
+    public Page<AccountDTO> listAllNewest(int page) {
         return null;
     }
 }
