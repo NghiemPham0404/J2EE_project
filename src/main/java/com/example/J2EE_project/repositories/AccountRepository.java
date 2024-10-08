@@ -57,6 +57,6 @@ public interface AccountRepository extends JpaRepository<Account, Integer>, Crud
      /**
       * Đăng nhập
       * */
-     @Query("Select a from Account a where a.username = :username and a.password = :password")
-     Account login(String username, String password);
+     @Query("Select a from Account a where a.username = :username")
+     Account login(String username);
 }
