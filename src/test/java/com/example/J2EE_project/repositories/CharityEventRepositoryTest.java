@@ -26,7 +26,8 @@ public class CharityEventRepositoryTest {
 	void setUp() {
         charityEvent = new CharityEvent();
         charityEvent.setName("Article 1");
-        charityEvent.setStartTime(new Date(123, 11, 12));
+        charityEvent.setStartTime(new Date() );
+        charityEvent.setEndTime(new Date(124, 11, 31));
         charityEventRepository.save(charityEvent);
 	}
 
@@ -44,8 +45,22 @@ public class CharityEventRepositoryTest {
     }
 
     @Test
+    public void findByName() {
+        CharityEvent charityEvent1 = charityEventRepository.findByNameContaining(PageRequest.of(0,10), "Article").getContent().get(0);
+        System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(charityEvent1.getStartTime()));
+        assertThat(charityEvent1.getName()).isEqualTo(charityEvent.getName());
+    }
+
+    @Test
     public void findCharityEventWithOutPost(){
         CharityEvent charityEvent1 = charityEventRepository.findAllCharityEventWithoutPost(PageRequest.of(0,10)).getContent().get(0);
+        assertThat(charityEvent1.getName()).isEqualTo(charityEvent.getName());
+    }
+
+    @Test
+    public void findCharityEventNotEnd(){
+        System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(charityEvent.getStartTime()));
+        CharityEvent charityEvent1 = charityEventRepository.getCharityEventNotEnd((PageRequest.of(0,10))).getContent().get(0);
         assertThat(charityEvent1.getName()).isEqualTo(charityEvent.getName());
     }
 }

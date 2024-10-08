@@ -1,6 +1,7 @@
 package com.example.J2EE_project.services;
 
 import com.example.J2EE_project.DTOs.AccountDTO;
+import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +33,10 @@ public class PersonalInfoService {
 
     public AccountDTO login(String username, String rawPassword){
         String hashedPassword = passwordEncoder.encode(rawPassword);
-        return new AccountDTO(accountRepository.login(username, hashedPassword));
+        Account account = accountRepository.login(username);
+        if(account == null) return null;
+        if(!passwordEncoder.matches(hashedPassword, account.getPassword())) return null;
+        return new AccountDTO(account);
     }
 
 }

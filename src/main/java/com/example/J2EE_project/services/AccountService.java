@@ -8,10 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,12 +22,18 @@ public class AccountService implements serviceInterface<AccountDTO, Integer>{
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * Thêm mới một tài khoản
      */
     @Override
     public String create(AccountDTO accountDTO) {
         Account account = accountDTO.toAccount();
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        account.setPassword(passwordEncoder.encode(formatter.format(new Date())));
         accountRepository.save(account);
         return "account created successfully";
     }
