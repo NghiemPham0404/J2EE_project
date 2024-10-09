@@ -59,7 +59,7 @@ public interface CharityEventRepository extends JpaRepository<CharityEvent, UUID
            "LEFT JOIN ce.transferSessions ts " +
            "GROUP BY ce " +
            "HAVING ce.isDisbursed = false " +
-           "AND (ce.endTime > CURRENT_TIMESTAMP OR SUM(ts.amount) >= ce.goalAmount)")
+           "AND (ce.endTime < CURRENT_TIMESTAMP OR SUM(ts.amount) >= ce.goalAmount)")
     Page<CharityEvent>getCharityEventNotBeDisbursed(Pageable pageable);
 
      /**
