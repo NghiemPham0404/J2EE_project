@@ -14,12 +14,13 @@ public class SecurityConfig {
     }
 
     //$2a$10$EMDYO.kYvP4xJHkJqkeCzOmqTNC7WFR7vskYdpOym5NFvtIdxGkYe
+    //$2a$10$JOS.U7DKSQgWj9nC5ey5lOgYTo.EVOHcfIwK3A1/L9lb179BvlP0C
     public static void main(String[] args) {
         SecurityConfig securityConfig = new SecurityConfig();
         String rawPassword = "admin";
-        String encodedPassword = securityConfig.passwordEncoder().encode(rawPassword);
-        System.out.println("Encoded password: " + encodedPassword);
-//        boolean valid = securityConfig.passwordEncoder().matches(rawPassword,"$2a$10$J9DVl2H2Yk6dCBPbmAQO/eypw3l1S7Sx7BQfsCA3o6IchM8DzoSKi");
-//        System.out.println(valid);
+//        String encodedPassword = securityConfig.passwordEncoder().encode(rawPassword);
+//        System.out.println("Encoded password: " + encodedPassword);
+        boolean valid = securityConfig.passwordEncoder().matches(rawPassword, "$2a$10$JOS.U7DKSQgWj9nC5ey5lOgYTo.EVOHcfIwK3Aasdfsa9lb179BvlP0C");
+        System.out.println(valid);
     }
 }
