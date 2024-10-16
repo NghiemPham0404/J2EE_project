@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class AccountService implements serviceInterface<AccountDTO, Integer>{
+public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
@@ -29,11 +29,10 @@ public class AccountService implements serviceInterface<AccountDTO, Integer>{
     /**
      * Thêm mới một tài khoản
      */
-    @Override
     public String create(AccountDTO accountDTO) {
         Account account = accountDTO.toAccount();
         SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
-        account.setPassword(passwordEncoder.encode(formatter.format(new Date())));
+        account.setPassword(passwordEncoder.encode(formatter.format(account.getBirthDate())));
         accountRepository.save(account);
         return "account created successfully";
     }
@@ -41,7 +40,6 @@ public class AccountService implements serviceInterface<AccountDTO, Integer>{
     /**
      *Cập nhật thông tin tài khoản
      */
-    @Override
     public String update(AccountDTO accountDTO) {
         Account account = accountDTO.toAccount();
         accountRepository.save(account);
@@ -51,7 +49,6 @@ public class AccountService implements serviceInterface<AccountDTO, Integer>{
     /**
      *Xóa thông tin tài khoản
      */
-    @Override
     public String delete(Integer id) {
         accountRepository.deleteById(id);
         return "account deleted successfully";
@@ -60,7 +57,6 @@ public class AccountService implements serviceInterface<AccountDTO, Integer>{
     /**
      *Lấy tài khoản theo id
      */
-    @Override
     public AccountDTO get(Integer id) {
         Account account = accountRepository.findById(id).get();
         AccountDTO accountDTO = new AccountDTO(account);
@@ -103,23 +99,4 @@ public class AccountService implements serviceInterface<AccountDTO, Integer>{
         accountRepository.updateActiveStatus(id, true);
     }
 
-    @Override
-    public List<AccountDTO> listAll() {
-        return null;
-    }
-
-    @Override
-    public List<AccountDTO> listAllNewest() {
-        return null;
-    }
-
-    @Override
-    public Page<AccountDTO> listAll(int page) {
-       return null;
-    }
-
-    @Override
-    public Page<AccountDTO> listAllNewest(int page) {
-        return null;
-    }
 }

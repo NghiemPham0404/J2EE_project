@@ -2,9 +2,9 @@ package com.example.J2EE_project.DTOs;
 
 import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.models.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,6 +14,8 @@ public class AccountDTO {
 
     private String name;
 
+    private Date birthDate;
+
     private String username;
 
     private String email;
@@ -22,13 +24,18 @@ public class AccountDTO {
 
     private Role role;
 
+    @Getter(AccessLevel.NONE)
+    private String password;
+
     public AccountDTO(Account account){
         this.id = account.getId();
         this.name = account.getName();
+        this.birthDate = account.getBirthDate();
         this.username = account.getUsername();
         this.email = account.getEmail();
         this.active = account.isActive();
         this.role = account.getRole();
+        this.password = account.getPassword();
     }
 
     public Account toAccount(){
@@ -39,6 +46,7 @@ public class AccountDTO {
         account.setEmail(email);
         account.setActive(active);
         account.setRole(role);
+        account.setPassword(password);
         return account;
     }
 }

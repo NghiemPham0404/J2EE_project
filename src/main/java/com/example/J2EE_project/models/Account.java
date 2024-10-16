@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @Table
@@ -18,6 +20,10 @@ public class Account {
 
     @Column
     private String name;
+
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
 
     @Column
     private String username;

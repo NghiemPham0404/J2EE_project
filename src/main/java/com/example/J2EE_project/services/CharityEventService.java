@@ -1,7 +1,9 @@
 package com.example.J2EE_project.services;
 
 import com.example.J2EE_project.models.CharityEvent;
+import com.example.J2EE_project.models.TransferSession;
 import com.example.J2EE_project.repositories.CharityEventRepository;
+import com.example.J2EE_project.repositories.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -10,47 +12,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class CharityEventService implements serviceInterface<CharityEvent, String> {
+public class CharityEventService{
     @Autowired
     CharityEventRepository charityEventRepository;
 
-    @Override
     public String create(CharityEvent charityEvent) {
         charityEventRepository.save(charityEvent);
         return "Charity Event created";
     }
 
-    @Override
     public String update(CharityEvent charityEvent) {
         charityEventRepository.save(charityEvent);
         return "Charity Event updated";
     }
 
-    @Override
     public String delete(String id) {
         charityEventRepository.deleteById(UUID.fromString(id));
         return "Charity Event deleted";
     }
 
-    @Override
-    public List<CharityEvent> listAll() {
-        return charityEventRepository.findAll();
-    }
-
-    @Override
-    public List<CharityEvent> listAllNewest() {
-        List<CharityEvent> charityEvents = charityEventRepository.findAll();
-        charityEvents.sort((o1, o2) -> o2.getStartTime().compareTo(o1.getStartTime()));
-        return charityEvents;
-    }
-
-    @Override
-    public Page<CharityEvent> listAll(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
-        return charityEventRepository.findAll(pageable);
-    }
-
-    @Override
     public Page<CharityEvent> listAllNewest(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "startTime"));
         return charityEventRepository.findAll(pageable);
@@ -93,7 +73,7 @@ public class CharityEventService implements serviceInterface<CharityEvent, Strin
     }
 
     /**
-     * Lấy các charity event đã đủ mục tiêu
+     * TODO : Lấy các charity event đã đủ mục tiêu
      */
     public Page<CharityEvent> getCharityEventReachGoal(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "startTime"));
@@ -101,7 +81,7 @@ public class CharityEventService implements serviceInterface<CharityEvent, Strin
     }
 
     /**
-     * Lấy các charity event chưa giải ngân dù đã đủ 1 trong 2 điều kiện
+     * TODO : Lấy các charity event chưa giải ngân dù đã đủ 1 trong 2 điều kiện
      * Điều kiện 1 : đã kết thúc
      * Điều kiện 2 : đã đạt mục tiêu quyên góp
      */
@@ -111,10 +91,11 @@ public class CharityEventService implements serviceInterface<CharityEvent, Strin
     }
 
     /**
-     * Giải ngân
+     * TODO : Giải ngân
      */
-    public void disburseCharityEvent(String id){
+    public String disburseCharityEvent(String id){
         charityEventRepository.disburseCharityEvent(UUID.fromString(id));
+        return "Charity Event disbursed successfully";
     }
 }
 
