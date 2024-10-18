@@ -16,14 +16,26 @@ public interface PostRepository extends JpaRepository<Post, UUID>, PagingAndSort
     @Query("SELECT a FROM Post a WHERE a.account.id = :id")
     Page<Post> findAllByOwnerId(Pageable pageable, int id);
 
+     /**
+     * TODO : Tìm các bài viết cho người xem
+     * */
+    @Query("SELECT a FROM Post a WHERE a.approved != null")
+    Page<Post> findAllForViewer(Pageable pageable);
+
     /**
-     * TODO : Tìm các bài viết bằng title do chính mình viết
+     * TODO :  Tìm các bài viết bằng title (cho admin)
      * */
     @Query("SELECT a FROM Post a WHERE a.title like %:title%")
     Page<Post> findAllByTitle(Pageable pageable,String title);
 
     /**
-     * TODO : Tìm các bài viết bằng title (cho admin và người xem web)
+     * TODO :  Tìm các bài viết bằng title (cho người xem)
+     * */
+    @Query("SELECT a FROM Post a WHERE a.title like %:title% and a.approved != null")
+    Page<Post> findAllByTitleForViewer(Pageable pageable,String title);
+
+    /**
+     * TODO : Tìm các bài viết bằng title do chính mình viết
      * */
     @Query("SELECT a FROM Post a WHERE a.account.id = :id AND a.title like %:title%")
     Page<Post> findAllByTitle(Pageable pageable, String title, int id);

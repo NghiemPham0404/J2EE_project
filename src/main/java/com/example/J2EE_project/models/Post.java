@@ -30,6 +30,10 @@ public class Post {
     private Date timePost;
 
     @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date approved;
+
+    @Column
     private String thumbImg;
 
     @ManyToOne
