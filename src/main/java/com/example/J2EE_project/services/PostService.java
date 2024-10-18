@@ -56,6 +56,15 @@ public class PostService {
     }
 
     /**
+     * TODO : Hiển thị tất cả post theo trang
+     * */
+    public Page<Post> listAllForViewer(int page) {
+        Pageable pageable = PageRequest.of(page, 20);
+        return postRepository.findAllForViewer(pageable);
+    }
+
+
+    /**
      * TODO : tìm kiếm tất cả post (do chính mình viết) theo trang
      * */
     public Page<Post> search(int page, String query,  int id) {
@@ -69,6 +78,14 @@ public class PostService {
     public Page<Post> search(int page, String query) {
         Pageable pageable = PageRequest.of(page, 20);
         return postRepository.findAllByTitle(pageable, query);
+    }
+
+    /**
+     * TODO : tìm kiếm tất cả post theo trang
+     * */
+    public Page<Post> searchForUser(int page, String query) {
+        Pageable pageable = PageRequest.of(page, 20);
+        return postRepository.findAllByTitleForViewer(pageable, query);
     }
 
     /**

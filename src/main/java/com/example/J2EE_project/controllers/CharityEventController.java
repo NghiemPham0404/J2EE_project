@@ -6,7 +6,6 @@ import com.example.J2EE_project.models.TransferSession;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.CharityEventService;
 import com.example.J2EE_project.services.TransferService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/charity-events")
@@ -66,7 +64,7 @@ public class CharityEventController {
      * TODO : Lấy danh sách charity event
      */
     @GetMapping
-    public ResponseEntity<Object> listCharityEventsPaged(@PathParam("page") int page) {
+    public ResponseEntity<Object> listCharityEventsPaged(@RequestParam(value = "page", defaultValue = "0") int page) {
         Page<CharityEvent> eventsPage = charityEventService.listAllNewest(page);
         return ResponseBuilder.buildResponse(eventsPage, HttpStatus.OK);
     }

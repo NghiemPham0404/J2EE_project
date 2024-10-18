@@ -18,14 +18,18 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    // Create a new post
+    /**
+     * TODO : Tạo một Post mới
+     * */
     @PostMapping
     public ResponseEntity<Object> createPost(@RequestBody Post post) {
         String response = postService.create(post);
         return ResponseBuilder.buildResponse(response, HttpStatus.OK);
     }
 
-    // Update an existing post
+     /**
+     * TODO : Sửa một Post
+     * */
     @PutMapping("/{id}")
     public ResponseEntity<Object> updatePost(@PathVariable String id, @RequestBody Post post) {
         postService.get(id);
@@ -33,27 +37,44 @@ public class PostController {
         return ResponseBuilder.buildResponse(response, HttpStatus.OK);
     }
 
-    // Delete a post by ID
+    /**
+     * TODO : Xóa một Post bằng id
+     * */
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletePost(@PathVariable String id) {
         String response = postService.delete(id);
         return ResponseBuilder.buildResponse(response, HttpStatus.OK);
     }
 
-    // Get a specific post by ID
+     /**
+     * TODO : Lấy một Post bằng id
+     * */
     @GetMapping("/{id}")
     public Post getPostById(@PathVariable String id) {
         return postService.get(id);
     }
 
-    // List all posts (paginated)
-    @GetMapping
+     /**
+     * TODO : Lấy danh sách tất cả các post
+     * */
+    @GetMapping("all")
     public ResponseEntity<Object> listAllPosts(@RequestParam(defaultValue = "0") int page) {
         Page<Post> posts = postService.listAllNewest(page);
         return ResponseBuilder.buildResponse(posts, HttpStatus.OK);
     }
 
-    // List all posts by the user (paginated)
+     /**
+     * TODO : Lấy danh sách tất cả các post đã được duyệt (cho người xem)
+     * */
+    @GetMapping
+    public ResponseEntity<Object> listAllPostsForUser(@RequestParam(defaultValue = "0") int page) {
+        Page<Post> posts = postService.listAllForViewer(page);
+        return ResponseBuilder.buildResponse(posts, HttpStatus.OK);
+    }
+
+    /**
+     * TODO : Lấy danh sách tất cả các post do chính mình viết
+     * */
     @GetMapping("/my-posts")
     public ResponseEntity<Object> listAllMyPosts(
             @RequestParam(defaultValue = "0") int page,
@@ -62,8 +83,10 @@ public class PostController {
         return ResponseBuilder.buildResponse(posts, HttpStatus.OK);
     }
 
-    // Search posts by title (paginated, all posts)
-    @GetMapping("/search")
+    /**
+     * TODO : Tìm kiếm tất cả các post
+     * */
+    @GetMapping("/search-all")
     public ResponseEntity<Object> searchPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam String query) {
@@ -71,7 +94,20 @@ public class PostController {
         return ResponseBuilder.buildResponse(posts, HttpStatus.OK);
     }
 
-    // Search posts by title written by a specific user (paginated)
+    /**
+     * TODO : Tìm kiếm tất cả các post đã được duyệt (cho người xem)
+     * */
+    @GetMapping("/search")
+    public ResponseEntity<Object> searchPostsForUser(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam String query) {
+        Page<Post> posts = postService.search(page, query);
+        return ResponseBuilder.buildResponse(posts, HttpStatus.OK);
+    }
+
+    /**
+     * TODO : tìm kiếm tất cả các post do chính mình viết
+     * */
     @GetMapping("/search/my-posts")
     public ResponseEntity<Object> searchMyPosts(
             @RequestParam(defaultValue = "0") int page,
