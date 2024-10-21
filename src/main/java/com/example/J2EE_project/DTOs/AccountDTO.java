@@ -42,6 +42,7 @@ public class AccountDTO {
         Account account = new Account();
         account.setId(id);
         account.setName(name);
+        account.setBirthDate(birthDate);
         account.setUsername(username);
         account.setEmail(email);
         account.setActive(active);

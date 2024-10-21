@@ -21,6 +21,11 @@ public class RoleController {
         return ResponseBuilder.buildResponse(roleService.listAll(), HttpStatus.OK);
     }
 
+     @GetMapping("/{id}")
+    public Role getAllRoles(@PathVariable("id") int id){
+        return roleService.get(id);
+    }
+
     @PostMapping
     public ResponseEntity<Object> createRole(@RequestBody Role role) {
         return ResponseBuilder.buildResponse(roleService.create(role), HttpStatus.OK);

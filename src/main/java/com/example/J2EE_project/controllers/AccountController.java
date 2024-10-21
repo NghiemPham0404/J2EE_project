@@ -16,27 +16,27 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
-     /**
+    /**
      * TODO : Thêm mới một tài khoản
      */
-     @PostMapping
-     public ResponseEntity<Object> createAccount(@RequestBody AccountDTO account) {
+    @PostMapping
+    public ResponseEntity<Object> createAccount(@RequestBody AccountDTO account) {
         return ResponseBuilder.buildResponse(accountService.create(account), HttpStatus.OK);
-     }
+    }
 
-     /**
+    /**
      * TODO : Sửa một tài khoản
      */
-     @PutMapping("/{id}")
-     public ResponseEntity<Object> updateAccount(@PathVariable Integer id, @RequestBody AccountDTO updatedAccount) {
-         accountService.get(id);
-         return ResponseBuilder.buildResponse(accountService.update(updatedAccount), HttpStatus.OK);
-     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateAccount(@PathVariable Integer id, @RequestBody AccountDTO updatedAccount) {
+        accountService.get(id);
+        return ResponseBuilder.buildResponse(accountService.update(updatedAccount), HttpStatus.OK);
+    }
 
-     /**
+    /**
      * TODO : Xóa một tài khoản
      */
-     @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAccount(@PathVariable Integer id) {
         return ResponseBuilder.buildResponse(accountService.delete(id), HttpStatus.OK);
     }
@@ -52,42 +52,42 @@ public class AccountController {
     /**
      * TODO : Lấy tất cả tài khoản theo trang cho admin
      */
-     @GetMapping("/all")
-     public ResponseEntity<Object> listAllAccount(@PathParam("admin_id") Integer adminId, @RequestParam(value = "page", defaultValue = "0") int page){
-         adminId = adminId == null ? 1 : adminId;
-         return ResponseBuilder.buildResponse(accountService.listAllAccount(adminId, page), HttpStatus.OK);
-     }
+    @GetMapping("/all")
+    public ResponseEntity<Object> listAllAccount(@PathParam("admin_id") Integer adminId, @RequestParam(value = "page", defaultValue = "0") int page) {
+        adminId = adminId == null ? 1 : adminId;
+        return ResponseBuilder.buildResponse(accountService.listAllAccount(adminId, page), HttpStatus.OK);
+    }
 
-     /**
+    /**
      * TODO : Lấy tất cả tài khoản theo tên
      */
-     @GetMapping("/search")
-     public ResponseEntity<Object> listAllAccountByName(@PathParam("query")String query, @RequestParam(value = "page", defaultValue = "0") int page){
-         return ResponseBuilder.buildResponse(accountService.listByName(query, page), HttpStatus.OK);
-     }
+    @GetMapping("/search")
+    public ResponseEntity<Object> listAllAccountByName(@PathParam("query") String query, @RequestParam(value = "page", defaultValue = "0") int page) {
+        return ResponseBuilder.buildResponse(accountService.listByName(query, page), HttpStatus.OK);
+    }
 
-     /**
+    /**
      * TODO : Lấy tất cả tài khoản theo role
      */
-     @GetMapping("/all/role")
-     public ResponseEntity<Object> listAllAccountByRole(@PathParam("role") int role, @RequestParam(value = "page", defaultValue = "0") int page){
-         return ResponseBuilder.buildResponse(accountService.listByRole(role, page), HttpStatus.OK);
-     }
+    @GetMapping("/all/role")
+    public ResponseEntity<Object> listAllAccountByRole(@PathParam("role") int role, @RequestParam(value = "page", defaultValue = "0") int page) {
+        return ResponseBuilder.buildResponse(accountService.listByRole(role, page), HttpStatus.OK);
+    }
 
-     /**
+    /**
      * TODO : Khóa tài khoản
      */
-     @PutMapping("deactivate/{id}")
-     public void deactivateAccount(@PathVariable Integer id) {
+    @PutMapping("deactivate/{id}")
+    public void deactivateAccount(@PathVariable Integer id) {
         accountService.deactivateAccount(id);
-     }
+    }
 
-     /**
+    /**
      * TODO : Khóa tài khoản
      */
-     @PutMapping("activate/{id}")
-     public void activateAccount(@PathVariable Integer id) {
+    @PutMapping("activate/{id}")
+    public void activateAccount(@PathVariable Integer id) {
         accountService.activateAccount(id);
-     }
+    }
 
 }
