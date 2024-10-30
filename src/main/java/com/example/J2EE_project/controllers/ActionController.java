@@ -4,6 +4,7 @@ package com.example.J2EE_project.controllers;
 import com.example.J2EE_project.models.Action;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.ActionService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class ActionController {
     /**
      * TODO : Thêm mới một Action
      */
+    @Operation(summary = "Thêm mới một Action")
     @PostMapping
     public ResponseEntity<Object> createAction(@RequestBody Action action) {
         String response = actionService.create(action);
@@ -30,6 +32,7 @@ public class ActionController {
    /**
      * TODO : Sửa một Action
      */
+   @Operation(summary = "Sửa một Action")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAction(@PathVariable Integer id, @RequestBody Action action) {
         actionService.get(id);
@@ -40,6 +43,7 @@ public class ActionController {
     /**
      * TODO : Xoá một Action
      */
+    @Operation(summary = "Xóa một Action")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAction(@PathVariable Integer id) {
         String response = actionService.delete(id);
