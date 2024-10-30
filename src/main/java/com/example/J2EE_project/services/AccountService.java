@@ -1,27 +1,30 @@
 package com.example.J2EE_project.services;
 
 import com.example.J2EE_project.DTOs.AccountDTO;
+import com.example.J2EE_project.exceptions.InvalidPageException;
+import com.example.J2EE_project.exceptions.NotFoundException;
 import com.example.J2EE_project.models.Account;
+import com.example.J2EE_project.models.Role;
 import com.example.J2EE_project.repositories.AccountRepository;
+import com.example.J2EE_project.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 
 @Service
-public class AccountService {
+public class AccountService{
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,6 +33,27 @@ public class AccountService {
      * Thêm mới một tài khoản
      */
     public String create(AccountDTO accountDTO) {
+        Account account = accountDTO.toAccount();
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        account.setPassword(passwordEncoder.encode(formatter.format(account.getBirthDate())));
+        accountRepository.save(account);
+        return "account created successfully";
+    }
+
+    /**
+     * Thêm mới một tài khoản
+     */
+    public String create(String name, Date birthDate, String username, String email, boolean active, int role_id) {
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setName(name);
+        accountDTO.setBirthDate(birthDate);
+        accountDTO.setUsername(username);
+        accountDTO.setEmail(email);
+        accountDTO.setActive(active);
+
+        Role role = roleRepository.findById(role_id).get();
+        accountDTO.setRole(role);
+
         Account account = accountDTO.toAccount();
         SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
         account.setPassword(passwordEncoder.encode(formatter.format(account.getBirthDate())));
@@ -58,37 +82,45 @@ public class AccountService {
      *Lấy tài khoản theo id
      */
     public AccountDTO get(Integer id) {
-        Account account = accountRepository.findById(id).get();
-        AccountDTO accountDTO = new AccountDTO(account);
-        System.out.println("Ten la : "+ account.getName());
-        return accountDTO;
+        Account account = accountRepository.findById(id).orElseThrow(() -> new NotFoundException(NotFoundException.NOT_FOUND));
+        return new AccountDTO(account);
     }
 
     public Page<AccountDTO> listAllAccount(int id, int page){
+        if(page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
         Pageable pageable = PageRequest.of(page, 10);
-        return accountRepository.listAllAccount(id, pageable).map(AccountDTO::new);
+        Page<Account> accountPage = accountRepository.listAllAccount(id, pageable);
+        if(page + 1 > accountPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
+        return accountPage.map(AccountDTO::new);
     }
 
     /**
      *Lấy tất cả tài khoản theo tên
      */
     public Page<AccountDTO> listByName(String name, int page) {
+        if(page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
         Pageable pageable = PageRequest.of(page, 10);
-        return accountRepository.findByNameIgnoreCase(name, pageable).map(AccountDTO::new);
+        Page<Account> accountPage = accountRepository.findByNameIgnoreCase(name, pageable);
+        if(page + 1 > accountPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
+        return accountPage.map(AccountDTO::new);
     }
 
      /**
      *Lấy tất cả tài khoản theo role
      */
     public Page<AccountDTO> listByRole(int role_id, int page) {
+        if(page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
         Pageable pageable = PageRequest.of(page, 10);
-        return accountRepository.findByRole(role_id, pageable).map(AccountDTO::new);
+        Page<Account> accountPage = accountRepository.findByRole(role_id, pageable);
+        if(page + 1 > accountPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
+        return accountPage.map(AccountDTO::new);
     }
 
     /**
      *Khóa tài khoản
      */
     public void deactivateAccount(int id) {
+        get(id); // đảm bảo tồn tại account với id
         accountRepository.updateActiveStatus(id, false);
     }
 
@@ -96,7 +128,7 @@ public class AccountService {
      *Mở khóa tài khoản
      */
     public void activateAccount(int id) {
+        get(id); // đảm bảo tồn tại account với id
         accountRepository.updateActiveStatus(id, true);
     }
-
 }

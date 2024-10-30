@@ -4,6 +4,7 @@ import com.example.J2EE_project.models.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -39,4 +40,11 @@ public interface PostRepository extends JpaRepository<Post, UUID>, PagingAndSort
      * */
     @Query("SELECT a FROM Post a WHERE a.account.id = :id AND a.title like %:title%")
     Page<Post> findAllByTitle(Pageable pageable, String title, int id);
+
+    /**
+      * TODO : duyệt một post
+      * */
+     @Modifying
+     @Query("UPDATE Post ce SET ce.approved = CURRENT_TIMESTAMP WHERE ce.id = :id")
+     void approvePost(UUID id);
 }

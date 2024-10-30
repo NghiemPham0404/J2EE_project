@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `account` (
 INSERT INTO `account` (`id`, `name`, `birth_date`, `email`, `username`, `password`, `role_id`, `active`) VALUES
 	(1, 'Admin', '2000-10-14', 'admin@gmail.com', 'admin', 'admin', 1, 1),
 	(2, 'Nguyen Van Anh', '2003-08-13', 'nguyenvana@gmail.com', 'nguyena', '123123', 2, 1),
-	(3, 'Tran Van Binh', '2001-12-11', 'tranbinh@gmail.com', 'tranbinh', '123123', 3, 1);
+	(3, 'Tran Van Bình', '2001-12-11', 'tranbinh@gmail.com', 'tranbinh', NULL, 3, 1);
 
 -- Dumping structure for table j2ee_project.action
 CREATE TABLE IF NOT EXISTS `action` (
