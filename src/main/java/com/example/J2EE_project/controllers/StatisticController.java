@@ -3,18 +3,15 @@ package com.example.J2EE_project.controllers;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.EventStatisticService;
 import com.example.J2EE_project.services.PostStatisticService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-@Controller
+@RestController
 @RequestMapping("/api/statistic")
 public class StatisticController {
     @Autowired
@@ -23,28 +20,32 @@ public class StatisticController {
     @Autowired
     EventStatisticService eventStatisticService;
 
+    @Operation(summary = "Lấy ra những tài khoản với nhiều bài viết nhất")
     @GetMapping("account/most-posts-accounts")
     public ResponseEntity<Object> statisticMostPostAccounts(@RequestParam(value = "startTime") Date startTime,
-                                                            @RequestParam(value = "startTime") Date endTime){
+                                                            @RequestParam(value = "startTime") Date endTime) {
         return ResponseBuilder.buildResponse(postStatisticService.statisticMostPostAccounts(startTime, endTime), HttpStatus.OK);
     }
 
+    @Operation(summary = "Những bài viết được xem nhiều nhất")
     @GetMapping("post/most-viewed-posts")
-     public ResponseEntity<Object> statisticMostViewedPosts(@RequestParam(value = "startTime") Date startTime,
-                                                            @RequestParam(value = "startTime") Date endTime){
+    public ResponseEntity<Object> statisticMostViewedPosts(@RequestParam(value = "startTime") Date startTime,
+                                                           @RequestParam(value = "startTime") Date endTime) {
         return ResponseBuilder.buildResponse(postStatisticService.statisticMostViewedPosts(startTime, endTime), HttpStatus.OK);
     }
 
+    @Operation(summary = "Những bài viết được ủng hộ nhiều nhất")
     @GetMapping("charity-event/most-donation-events")
     public ResponseEntity<Object> statisticMostDonationEvents(@RequestParam(value = "startTime") Date startTime,
-                                                            @RequestParam(value = "startTime") Date endTime) {
-        return ResponseBuilder.buildResponse(eventStatisticService.statisticMostDonationEvents(startTime, endTime),HttpStatus.OK);
+                                                              @RequestParam(value = "startTime") Date endTime) {
+        return ResponseBuilder.buildResponse(eventStatisticService.statisticMostDonationEvents(startTime, endTime), HttpStatus.OK);
     }
 
+    @Operation(summary = "Thống kê những nguời donate nhiều nhất trong một chương trình từ thiện")
     @GetMapping("charity-event/{ce_id}/most-charitatble-person")
     public ResponseEntity<Object> statisticMostCharitablePeople(@PathVariable("ce_id") String charityEventId,
-            @RequestParam(value = "startTime") Date startTime,
-            @RequestParam(value = "startTime") Date endTime) {
-        return ResponseBuilder.buildResponse(eventStatisticService.statisticMostCharitablePeople(charityEventId,startTime, endTime),HttpStatus.OK);
+                                                                @RequestParam(value = "startTime") Date startTime,
+                                                                @RequestParam(value = "startTime") Date endTime) {
+        return ResponseBuilder.buildResponse(eventStatisticService.statisticMostCharitablePeople(charityEventId, startTime, endTime), HttpStatus.OK);
     }
 }

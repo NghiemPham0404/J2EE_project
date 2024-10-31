@@ -3,6 +3,7 @@ package com.example.J2EE_project.controllers;
 import com.example.J2EE_project.models.Post;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.PostService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class PostController {
     /**
      * TODO : Tạo một Post mới
      */
+    @Operation(summary = "Tạo một Post mới")
     @PostMapping
     public ResponseEntity<Object> createPost(@RequestBody Post post) {
         String response = postService.create(post);
@@ -30,6 +32,7 @@ public class PostController {
     /**
      * TODO : Sửa một Post
      */
+    @Operation(summary = "Sửa một Post")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updatePost(@PathVariable String id, @RequestBody Post post) {
         postService.get(id);
@@ -40,6 +43,7 @@ public class PostController {
     /**
      * TODO : Xóa một Post bằng id
      */
+    @Operation(summary = "Xóa một Post bằng id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletePost(@PathVariable String id) {
         String response = postService.delete(id);
@@ -50,6 +54,7 @@ public class PostController {
      * TODO : Lấy một Post bằng id
      */
     @GetMapping("/{id}")
+    @Operation(summary = "Lấy một post bằng id")
     public Post getPostById(@PathVariable String id) {
         return postService.get(id);
     }
@@ -57,6 +62,7 @@ public class PostController {
     /**
      * TODO : Lấy danh sách tất cả các post
      */
+    @Operation(summary = "Lấy danh sách tất cả các post")
     @GetMapping("all")
     public ResponseEntity<Object> listAllPosts(@RequestParam(defaultValue = "0") int page) {
         Page<Post> posts = postService.listAllNewest(page);
@@ -67,6 +73,7 @@ public class PostController {
      * TODO : Lấy danh sách tất cả các post đã được duyệt (cho người xem)
      */
     @GetMapping
+    @Operation(summary = "Lấy danh sách tất cả các post đã được duyệt cho người xem")
     public ResponseEntity<Object> listAllPostsForUser(@RequestParam(defaultValue = "0") int page) {
         Page<Post> posts = postService.listAllForViewer(page);
         return ResponseBuilder.buildResponse(posts, HttpStatus.OK);
@@ -75,6 +82,7 @@ public class PostController {
     /**
      * TODO : Lấy danh sách tất cả các post do chính mình viết
      */
+    @Operation(summary = "Lấy danh sách tất cả các post do chính mình viết")
     @GetMapping("/my-posts")
     public ResponseEntity<Object> listAllMyPosts(
             @RequestParam(defaultValue = "0") int page,
@@ -84,8 +92,9 @@ public class PostController {
     }
 
     /**
-     * TODO : Tìm kiếm tất cả các post
+     * TODO : Tìm kiếm các post theo tên
      */
+    @Operation(summary = "Tìm kiếm các post theo tên")
     @GetMapping("/search-all")
     public ResponseEntity<Object> searchPosts(
             @RequestParam(defaultValue = "0") int page,
@@ -97,6 +106,7 @@ public class PostController {
     /**
      * TODO : Tìm kiếm tất cả các post đã được duyệt (cho người xem)
      */
+    @Operation(summary = "Tìm kiếm các post theo tên và đã được duyệt (cho người xem)")
     @GetMapping("/search")
     public ResponseEntity<Object> searchPostsForUser(
             @RequestParam(defaultValue = "0") int page,
@@ -109,6 +119,7 @@ public class PostController {
      * TODO : tìm kiếm tất cả các post do chính mình viết
      */
     @GetMapping("/search/my-posts")
+    @Operation(summary = "Tìm kiếm tất cả các post do chính mình viết")
     public ResponseEntity<Object> searchMyPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam String query,
@@ -120,6 +131,7 @@ public class PostController {
     /**
      * TODO : phê duyệt một bài post
      */
+    @Operation(summary = "Phê duyệt một bài post")
     @PostMapping("/post/{id}/approved")
     public ResponseEntity<Object> approvePost(@PathVariable String id) {
         return ResponseBuilder.buildResponse(postService.approvePost(id), HttpStatus.OK);
@@ -127,7 +139,8 @@ public class PostController {
 
     /**
      * TODO : Thêm một lượt xem của một post
-     * */
+     */
+    @Operation(summary = "Thêm một lượt xem của một post")
     @PostMapping("/post/{id}/viewed")
     public void viewPost(@PathVariable String id) {
         postService.addOneViewIntoPost(id);

@@ -29,10 +29,10 @@ public class ActionController {
         return ResponseBuilder.buildResponse(response, HttpStatus.OK);
     }
 
-   /**
+    /**
      * TODO : Sửa một Action
      */
-   @Operation(summary = "Sửa một Action")
+    @Operation(summary = "Sửa một Action")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAction(@PathVariable Integer id, @RequestBody Action action) {
         actionService.get(id);
@@ -50,17 +50,19 @@ public class ActionController {
         return ResponseBuilder.buildResponse(response, HttpStatus.OK);
     }
 
-     /**
+    /**
      * TODO : Lấy một Action bằng Id
      */
+    @Operation(summary = "Lấy một Action bằng Id")
     @GetMapping("/{id}")
     public Action getActionById(@PathVariable Integer id) {
         return actionService.get(id);
     }
 
-     /**
+    /**
      * TODO : Lấy hết tất cả các Action
      */
+    @Operation(summary = "Lấy hết tất cả các Action")
     @GetMapping("/all")
     public ResponseEntity<Object> listAllActions() {
         List<Action> actions = actionService.listAll();
