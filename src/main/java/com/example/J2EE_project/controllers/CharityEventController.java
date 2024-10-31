@@ -6,6 +6,7 @@ import com.example.J2EE_project.models.TransferSession;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.CharityEventService;
 import com.example.J2EE_project.services.TransferService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class CharityEventController {
     /**
      * TODO : Thêm một charity event
      */
+    @Operation(summary = "Thêm một charity event")
     @PostMapping
     public ResponseEntity<Object> createCharityEvent(@RequestBody CharityEvent charityEvent) {
         String response = charityEventService.create(charityEvent);
@@ -36,6 +38,7 @@ public class CharityEventController {
     /**
      * TODO : Cập nhật một charity event
      */
+    @Operation(summary = "Cập nhật một charity event")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateCharityEvent(@PathVariable String id, @RequestBody CharityEvent charityEvent) {
         charityEventService.get(id);
@@ -46,6 +49,7 @@ public class CharityEventController {
     /**
      * TODO : Xóa một charity event
      */
+    @Operation(summary = "Xóa một charity event")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCharityEvent(@PathVariable String id) {
         String response = charityEventService.delete(id);
@@ -55,6 +59,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy charity event bằng id
      */
+    @Operation(summary = "Lấy charity event bằng id")
     @GetMapping("/{id}")
     public CharityEvent getCharityEventById(@PathVariable String id) {
         return charityEventService.get(id);
@@ -63,6 +68,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy danh sách charity event
      */
+    @Operation(summary = "Lấy danh sách charity event")
     @GetMapping
     public ResponseEntity<Object> listCharityEventsPaged(@RequestParam(value = "page", defaultValue = "0") int page) {
         Page<CharityEvent> eventsPage = charityEventService.listAllNewest(page);
@@ -72,6 +78,7 @@ public class CharityEventController {
     /**
      * TODO : Tìm kiếm charity event theo tên
      */
+    @Operation(summary = "Tìm kiếm charity event theo tên")
     @GetMapping("/search")
     public ResponseEntity<Object> searchCharityEventByName(
             @RequestParam("query") String query,
@@ -83,6 +90,7 @@ public class CharityEventController {
     /**
      * TODO : Tìm kiếm charity event không có bài viết
      */
+    @Operation(summary = "Tìm kiếm charity event không có bài viết")
     @GetMapping("/without-post")
     public ResponseEntity<Object> getCharityEventsWithoutPost(
             @RequestParam(value = "page", defaultValue = "0") int page) {
@@ -93,6 +101,7 @@ public class CharityEventController {
     /**
      * TODO : tìm các sự kiện từ thiện đang diễn ra
      */
+    @Operation(summary = "Tìm kiếm các sự kiện từ thiện đang diễn ra")
     @GetMapping("/ongoing")
     public ResponseEntity<Object> getOngoingCharityEvents(
             @RequestParam(value = "page", defaultValue = "0") int page) {
@@ -103,6 +112,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy các charity event đã kết thúc
      */
+    @Operation(summary = "Lấy các charity event đã kết thúc")
     @GetMapping("/completed")
     public ResponseEntity<Object> getCompletedCharityEvents(
             @RequestParam(value = "page", defaultValue = "0") int page) {
@@ -113,6 +123,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy các charity event đã đủ mục tiêu
      */
+    @Operation(summary = "Lấy các charity event đã đủ mục tiêu")
     @GetMapping("/reached-goal")
     public ResponseEntity<Object> getCharityEventsThatReachedGoal(
             @RequestParam(value = "page", defaultValue = "0") int page) {
@@ -125,6 +136,7 @@ public class CharityEventController {
      * Điều kiện 1 : đã kết thúc
      * Điều kiện 2 : đã đạt mục tiêu quyên góp
      */
+    @Operation(summary = "Lấy các charity event chưa giải ngân dù đã đủ 1 trong 2 điều kiện")
     @GetMapping("/not-disbursed")
     public ResponseEntity<Object> getCharityEventsNotDisbursed(
             @RequestParam(value = "page", defaultValue = "0") int page) {
@@ -135,20 +147,23 @@ public class CharityEventController {
     /**
      * TODO : Giải ngân
      */
+    @Operation(summary = "Giải ngân")
     @PostMapping("/disburse/{id}")
     public ResponseEntity<Object> disburseCharityEvent(@PathVariable String id) {
         return ResponseBuilder.buildResponse(charityEventService.disburseCharityEvent(id), HttpStatus.OK);
     }
 
+    @Operation(summary = "Sao kê")
     @GetMapping("{id}/all-transfer")
-    public ResponseEntity<Object> getAllTransferOfCharityEvent(@PathVariable String id){
+    public ResponseEntity<Object> getAllTransferOfCharityEvent(@PathVariable String id) {
         List<TransferSession> transferSessions = transferService.getAllTransferSessions(id);
         return ResponseBuilder.buildResponse(transferSessions, HttpStatus.OK);
     }
 
+    @Operation(summary = "chuyển khoản đến 1 charity event")
     @PostMapping("transfer")
     public ResponseEntity<Object> transferToCharityEvent(@RequestBody TransferSession transferSession, @RequestParam String id) {
-        CharityEvent ce =  getCharityEventById(id);
+        CharityEvent ce = getCharityEventById(id);
         transferSession.setCharityEvent(ce);
         return ResponseBuilder.buildResponse(transferService.transfer(transferSession), HttpStatus.OK);
     }
