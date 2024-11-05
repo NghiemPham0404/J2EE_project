@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,6 +19,8 @@ public class TransferSession {
 
     @Id
     @Column(columnDefinition = "CHAR(36)")
+    @JdbcTypeCode(Types.CHAR)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column
@@ -34,11 +38,4 @@ public class TransferSession {
     @ManyToOne
     @JoinColumn(name = "ce_id")
     private CharityEvent charityEvent;
-
-    @PrePersist
-    public void generateUUID() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
 }
