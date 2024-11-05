@@ -54,12 +54,12 @@ public class CharityEvent {
     List<TransferSession> transferSessions;
 
     @Transient
-    BigDecimal currentAmount;
+    private BigDecimal currentAmount = new BigDecimal(0);
+    ;
 
     @PostPersist
-    public void getCurrentAmount() {
-        currentAmount = new BigDecimal(0);
-        for(TransferSession session : transferSessions) {
+    public void updateCurrentAmount() {
+        for (TransferSession session : transferSessions) {
             currentAmount = currentAmount.add(session.getAmount());
         }
     }
