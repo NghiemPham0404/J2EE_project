@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +21,8 @@ public class CharityEvent {
 
     @Id
     @Column(columnDefinition = "CHAR(36)")
+    @JdbcTypeCode(Types.CHAR)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column
@@ -40,13 +44,6 @@ public class CharityEvent {
 
     @Column
     private boolean isDisbursed;
-
-    @PrePersist
-    public void generateUUID() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
 
     @OneToMany(mappedBy = "charityEvent")
     List<Post> posts;

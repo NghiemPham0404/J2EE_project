@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
 
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,8 @@ public class Post {
 
     @Id
     @Column(columnDefinition = "CHAR(36)")
+    @JdbcTypeCode(Types.CHAR)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String title;
@@ -46,12 +50,5 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<PostView> postViews;
-
-    @PrePersist
-    public void generateUUID() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
 }
 
