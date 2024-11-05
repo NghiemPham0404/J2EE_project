@@ -1,5 +1,6 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +9,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
 import java.sql.Types;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,18 +45,23 @@ public class CharityEvent {
     @Column
     private boolean isDisbursed;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "charityEvent")
     List<Post> posts;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "charityEvent")
     List<TransferSession> transferSessions;
 
-    public BigDecimal getCurrentAmount() {
-        BigDecimal currentAmount = new BigDecimal(0);
+    @Transient
+    BigDecimal currentAmount;
+
+    @PostPersist
+    public void getCurrentAmount() {
+        currentAmount = new BigDecimal(0);
         for(TransferSession session : transferSessions) {
             currentAmount = currentAmount.add(session.getAmount());
         }
-        return currentAmount;
     }
 }
 
