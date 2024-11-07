@@ -1,5 +1,6 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class PostView {
     private Date time;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "post_id", foreignKey = @ForeignKey(name = "FK_post_view_post"))
     private Post post;
 }

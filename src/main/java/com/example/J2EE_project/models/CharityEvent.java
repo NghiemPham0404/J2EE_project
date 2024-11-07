@@ -55,7 +55,6 @@ public class CharityEvent {
 
     @Transient
     private BigDecimal currentAmount = new BigDecimal(0);
-    ;
 
     @PostPersist
     public void updateCurrentAmount() {

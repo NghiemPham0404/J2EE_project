@@ -1,5 +1,7 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,10 +41,12 @@ public class Account {
     private boolean active;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToMany(mappedBy = "account")
+    @JsonBackReference
     private List<Post> posts;
 }
 

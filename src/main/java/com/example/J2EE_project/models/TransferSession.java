@@ -1,5 +1,6 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class TransferSession {
     @Column
     private LocalDateTime time;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ce_id")
     private CharityEvent charityEvent;
