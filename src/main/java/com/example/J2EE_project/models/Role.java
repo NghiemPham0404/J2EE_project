@@ -1,5 +1,6 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,10 @@ public class Role {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<RoleAction> roleActions;
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "RoleAction",
+            joinColumns = {@JoinColumn(name = "role_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "action_id", nullable = false)})
+    private List<Action> actions;
 }

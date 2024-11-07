@@ -1,5 +1,7 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,15 +42,18 @@ public class Post {
     @Column
     private String thumbImg;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "ce_id")
     private CharityEvent charityEvent;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "ac_id")
     private Account account;
 
     @OneToMany(mappedBy = "post")
+    @JsonBackReference
     private List<PostView> postViews;
 }
 

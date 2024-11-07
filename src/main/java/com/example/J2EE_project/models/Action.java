@@ -1,6 +1,7 @@
 package com.example.J2EE_project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class Action {
     @Column(length = 50)
     private String name;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "action", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoleAction> roleActions;
 }
