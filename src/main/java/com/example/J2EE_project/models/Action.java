@@ -22,7 +22,7 @@ public class Action {
     @Column(length = 50)
     private String name;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "action", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "action", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<RoleAction> roleActions;
 }

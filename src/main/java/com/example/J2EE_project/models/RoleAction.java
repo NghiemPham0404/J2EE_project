@@ -32,7 +32,6 @@ public class RoleAction {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "action_id")
     private Action action;
