@@ -10,6 +10,7 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class AccountController {
     /**
      * TODO : Thêm mới một tài khoản
      */
+    @PreAuthorize("hasAuthority('Account Management create')")
     @Operation(summary = "Thêm mới một tài khoản")
     @ApiResponse(responseCode = "200", description = "Account created successfully")
     @PostMapping
@@ -32,6 +34,7 @@ public class AccountController {
     /**
      * TODO : Sửa một tài khoản
      */
+    @PreAuthorize("hasAuthority('Account Management update')")
     @PutMapping("/{id}")
     @Operation(summary = "Sửa một tài khoản")
     @ApiResponse(responseCode = "200", description = "Account updated successfully")
@@ -43,6 +46,7 @@ public class AccountController {
     /**
      * TODO : Xóa một tài khoản
      */
+    @PreAuthorize("hasAuthority('Account Management delete')")
     @Operation(summary = " Xóa một tài khoản")
     @ApiResponse(responseCode = "200", description = "Account deleted successfully")
     @DeleteMapping("/{id}")
@@ -53,6 +57,7 @@ public class AccountController {
     /**
      * TODO : Lấy tài khoản theo id
      */
+    @PreAuthorize("hasAuthority('Account Management read')")
     @Operation(summary = "Lấy tài khoản theo id")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved account")
     @GetMapping("/{id}")
@@ -63,6 +68,8 @@ public class AccountController {
     /**
      * TODO : Lấy tất cả tài khoản theo trang cho admin
      */
+
+    @PreAuthorize("hasAuthority('Account Management read')")
     @Operation(summary = "Lấy tất cả tài khoản theo trang cho admin")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved accounts")
     @GetMapping("/all")
@@ -74,6 +81,7 @@ public class AccountController {
     /**
      * TODO : Lấy tất cả tài khoản theo tên
      */
+    @PreAuthorize("hasAuthority('Account Management read')")
     @GetMapping("/search")
     @Operation(summary = "Lấy tất cả tài khoản theo tên")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved accounts")
@@ -84,6 +92,7 @@ public class AccountController {
     /**
      * TODO : Lấy tất cả tài khoản theo role
      */
+    @PreAuthorize("hasAuthority('Account Management read')")
     @Operation(summary = "Lấy tất cả tài khoản theo role")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved accounts")
     @GetMapping("/all/role")
@@ -94,6 +103,7 @@ public class AccountController {
     /**
      * TODO : Khóa tài khoản
      */
+    @PreAuthorize("hasAuthority('Account Management update')")
     @Operation(summary = "Khóa tài khoản")
     @ApiResponse(responseCode = "200", description = "Account deactivated successfully")
     @PutMapping("deactivate/{id}")
@@ -104,6 +114,7 @@ public class AccountController {
     /**
      * TODO : Mở khóa tài khoản
      */
+    @PreAuthorize("hasAuthority('Account Management update')")
     @Operation(summary = " Mở khóa tài khoản")
     @ApiResponse(responseCode = "200", description = "Account activated successfully")
     @PutMapping("activate/{id}")

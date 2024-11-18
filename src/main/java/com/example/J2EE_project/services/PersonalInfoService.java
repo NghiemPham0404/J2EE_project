@@ -1,6 +1,8 @@
 package com.example.J2EE_project.services;
 
 import com.example.J2EE_project.DTOs.AccountDTO;
+import com.example.J2EE_project.exceptions.LoginException;
+import com.example.J2EE_project.exceptions.NotAuthorizedException;
 import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,13 @@ public class PersonalInfoService {
      @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public AccountDTO getPersonalInfo(int id){
-        return new AccountDTO(accountRepository.findById(id).get());
+    public AccountDTO getPersonalInfo(int id, String username){
+        AccountDTO accountDTO =  new AccountDTO(accountRepository.findById(id).get());
+        if(accountDTO.getUsername().equals(username)){
+            return accountDTO;
+        }else{
+            throw new NotAuthorizedException(NotAuthorizedException.NOT_AUTHORIZED);
+        }
     }
 
     public String changePassword(int id,String rawPassword){
@@ -32,10 +39,13 @@ public class PersonalInfoService {
     }
 
     public AccountDTO login(String username, String rawPassword){
-        String hashedPassword = passwordEncoder.encode(rawPassword);
         Account account = accountRepository.login(username);
-        if(account == null) return null;
-        if(!passwordEncoder.matches(hashedPassword, account.getPassword())) return null;
+        if(account == null){
+            throw new LoginException(LoginException.NON_EXIST_USER);
+        }
+        if(!passwordEncoder.matches(rawPassword, account.getPassword())){
+            throw new LoginException(LoginException.WRONG_PASSWORD);
+        }
         return new AccountDTO(account);
     }
 
