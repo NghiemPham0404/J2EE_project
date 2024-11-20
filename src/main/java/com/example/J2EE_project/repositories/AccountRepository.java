@@ -16,6 +16,9 @@ import java.util.UUID;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>, CrudRepository<Account, Integer> {
+
+    Account findByUsername(String username);
+
     /**
      * Tìm tất cả các tài khoản để quản lý
      */

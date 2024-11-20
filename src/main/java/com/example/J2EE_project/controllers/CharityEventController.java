@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class CharityEventController {
     /**
      * TODO : Thêm một charity event
      */
+    @PreAuthorize("hasAuthority('Charity Event Management create')")
     @Operation(summary = "Thêm một charity event")
     @PostMapping
     public ResponseEntity<Object> createCharityEvent(@RequestBody CharityEvent charityEvent) {
@@ -38,6 +40,7 @@ public class CharityEventController {
     /**
      * TODO : Cập nhật một charity event
      */
+    @PreAuthorize("hasAuthority('Charity Event Management update')")
     @Operation(summary = "Cập nhật một charity event")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateCharityEvent(@PathVariable String id, @RequestBody CharityEvent charityEvent) {
@@ -49,6 +52,7 @@ public class CharityEventController {
     /**
      * TODO : Xóa một charity event
      */
+    @PreAuthorize("hasAuthority('Charity Event Management delete')")
     @Operation(summary = "Xóa một charity event")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCharityEvent(@PathVariable String id) {
@@ -59,6 +63,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy charity event bằng id
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Lấy charity event bằng id")
     @GetMapping("/{id}")
     public CharityEvent getCharityEventById(@PathVariable String id) {
@@ -68,6 +73,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy danh sách charity event
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Lấy danh sách charity event")
     @GetMapping
     public ResponseEntity<Object> listCharityEventsPaged(@RequestParam(value = "page", defaultValue = "0") int page) {
@@ -78,6 +84,7 @@ public class CharityEventController {
     /**
      * TODO : Tìm kiếm charity event theo tên
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Tìm kiếm charity event theo tên")
     @GetMapping("/search")
     public ResponseEntity<Object> searchCharityEventByName(
@@ -90,6 +97,7 @@ public class CharityEventController {
     /**
      * TODO : Tìm kiếm charity event không có bài viết
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Tìm kiếm charity event không có bài viết")
     @GetMapping("/without-post")
     public ResponseEntity<Object> getCharityEventsWithoutPost(
@@ -101,6 +109,7 @@ public class CharityEventController {
     /**
      * TODO : tìm các sự kiện từ thiện đang diễn ra
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Tìm kiếm các sự kiện từ thiện đang diễn ra")
     @GetMapping("/ongoing")
     public ResponseEntity<Object> getOngoingCharityEvents(
@@ -112,6 +121,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy các charity event đã kết thúc
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Lấy các charity event đã kết thúc")
     @GetMapping("/completed")
     public ResponseEntity<Object> getCompletedCharityEvents(
@@ -123,6 +133,7 @@ public class CharityEventController {
     /**
      * TODO : Lấy các charity event đã đủ mục tiêu
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Lấy các charity event đã đủ mục tiêu")
     @GetMapping("/reached-goal")
     public ResponseEntity<Object> getCharityEventsThatReachedGoal(
@@ -136,6 +147,7 @@ public class CharityEventController {
      * Điều kiện 1 : đã kết thúc
      * Điều kiện 2 : đã đạt mục tiêu quyên góp
      */
+    @PreAuthorize("hasAuthority('Charity Event Management read')")
     @Operation(summary = "Lấy các charity event chưa giải ngân dù đã đủ 1 trong 2 điều kiện")
     @GetMapping("/not-disbursed")
     public ResponseEntity<Object> getCharityEventsNotDisbursed(
@@ -147,12 +159,14 @@ public class CharityEventController {
     /**
      * TODO : Giải ngân
      */
+    @PreAuthorize("hasAuthority('Accounting update')")
     @Operation(summary = "Giải ngân")
     @PostMapping("/disburse/{id}")
     public ResponseEntity<Object> disburseCharityEvent(@PathVariable String id) {
         return ResponseBuilder.buildResponse(charityEventService.disburseCharityEvent(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('Accounting read')")
     @Operation(summary = "Sao kê")
     @GetMapping("{id}/all-transfer")
     public ResponseEntity<Object> getAllTransferOfCharityEvent(@PathVariable String id) {

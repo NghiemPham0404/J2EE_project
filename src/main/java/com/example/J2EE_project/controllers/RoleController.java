@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @PreAuthorize("hasAuthority('Role Management read')")
     @Operation(summary = "Lấy tất cả Role")
     @GetMapping("/all")
     public ResponseEntity<Object> getAllRoles() {
@@ -29,12 +31,14 @@ public class RoleController {
         return roleService.get(id);
     }
 
+    @PreAuthorize("hasAuthority('Post Management create')")
     @Operation(summary = "Tạo một role")
     @PostMapping
     public ResponseEntity<Object> createRole(@RequestBody Role role) {
         return ResponseBuilder.buildResponse(roleService.create(role), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('Post Management update')")
     @Operation(summary = "Sửa một role")
     @PutMapping("{id}")
     public ResponseEntity<Object> updateRole(@PathVariable("id") int id, @RequestBody Role role) {
@@ -42,6 +46,7 @@ public class RoleController {
         return ResponseBuilder.buildResponse(roleService.update(role), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('Post Management read')")
     @Operation(summary = "Lấy role dựa trên id")
     @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteRole(@PathVariable("id") int id) {

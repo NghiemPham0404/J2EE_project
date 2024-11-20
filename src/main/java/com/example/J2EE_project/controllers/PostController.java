@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -22,6 +23,7 @@ public class PostController {
     /**
      * TODO : Tạo một Post mới
      */
+    @PreAuthorize("hasAuthority('Post Management create')")
     @Operation(summary = "Tạo một Post mới")
     @PostMapping
     public ResponseEntity<Object> createPost(@RequestBody Post post) {
@@ -32,6 +34,7 @@ public class PostController {
     /**
      * TODO : Sửa một Post
      */
+    @PreAuthorize("hasAuthority('Post Management update')")
     @Operation(summary = "Sửa một Post")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updatePost(@PathVariable String id, @RequestBody Post post) {
@@ -43,6 +46,7 @@ public class PostController {
     /**
      * TODO : Xóa một Post bằng id
      */
+    @PreAuthorize("hasAuthority('Post Management delete')")
     @Operation(summary = "Xóa một Post bằng id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletePost(@PathVariable String id) {
@@ -53,6 +57,7 @@ public class PostController {
     /**
      * TODO : Lấy một Post bằng id
      */
+    @PreAuthorize("hasAuthority('Post Management read')")
     @GetMapping("/{id}")
     @Operation(summary = "Lấy một post bằng id")
     public Post getPostById(@PathVariable String id) {
@@ -62,6 +67,7 @@ public class PostController {
     /**
      * TODO : Lấy danh sách tất cả các post
      */
+    @PreAuthorize("hasAuthority('Post Management read')")
     @Operation(summary = "Lấy danh sách tất cả các post")
     @GetMapping("all")
     public ResponseEntity<Object> listAllPosts(@RequestParam(defaultValue = "0") int page) {
@@ -82,6 +88,7 @@ public class PostController {
     /**
      * TODO : Lấy danh sách tất cả các post do chính mình viết
      */
+    @PreAuthorize("hasAuthority('Post Management read')")
     @Operation(summary = "Lấy danh sách tất cả các post do chính mình viết")
     @GetMapping("/my-posts")
     public ResponseEntity<Object> listAllMyPosts(
@@ -94,6 +101,7 @@ public class PostController {
     /**
      * TODO : Tìm kiếm các post theo tên
      */
+    @PreAuthorize("hasAuthority('Post Management read')")
     @Operation(summary = "Tìm kiếm các post theo tên")
     @GetMapping("/search-all")
     public ResponseEntity<Object> searchPosts(
@@ -118,6 +126,7 @@ public class PostController {
     /**
      * TODO : tìm kiếm tất cả các post do chính mình viết
      */
+    @PreAuthorize("hasAuthority('Post Management read')")
     @GetMapping("/search/my-posts")
     @Operation(summary = "Tìm kiếm tất cả các post do chính mình viết")
     public ResponseEntity<Object> searchMyPosts(
@@ -131,6 +140,7 @@ public class PostController {
     /**
      * TODO : phê duyệt một bài post
      */
+    @PreAuthorize("hasAuthority('Post Management update')")
     @Operation(summary = "Phê duyệt một bài post")
     @PostMapping("/post/{id}/approved")
     public ResponseEntity<Object> approvePost(@PathVariable String id) {
