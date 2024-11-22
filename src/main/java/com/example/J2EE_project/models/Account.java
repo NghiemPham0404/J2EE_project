@@ -1,6 +1,7 @@
 package com.example.J2EE_project.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class Account {
 
     @Column
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date birthDate;
 
     @Column
@@ -49,4 +51,5 @@ public class Account {
     @JsonBackReference
     private List<Post> posts;
 }
+
 

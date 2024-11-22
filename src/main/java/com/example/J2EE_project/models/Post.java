@@ -1,12 +1,15 @@
 package com.example.J2EE_project.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Types;
 import java.time.LocalDateTime;
@@ -31,10 +34,12 @@ public class Post {
     @Lob
     private String body;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date timePost;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date approved;
@@ -42,18 +47,30 @@ public class Post {
     @Column
     private String thumbImg;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "ce_id")
     private CharityEvent charityEvent;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonIgnore
     @JoinColumn(name = "ac_id")
     private Account account;
 
     @OneToMany(mappedBy = "post")
-    @JsonBackReference
+    @JsonManagedReference("post-postViews")
+    @JsonIgnore
     private List<PostView> postViews;
-}
 
+    @Transient
+    private String author;
+
+    @Transient
+    private long viewed;
+
+    @PostLoad
+    private void updateAuthorAndView(){
+        System.out.print("parse" + account.getName());
+        author = account.getName();
+        viewed = postViews.size();
+    }
+}

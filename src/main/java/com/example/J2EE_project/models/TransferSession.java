@@ -1,5 +1,6 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import java.math.BigDecimal;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -33,8 +35,9 @@ public class TransferSession {
     @Column(length = 280)
     private String description;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
-    private LocalDateTime time;
+    private Date time;
 
     @JsonIgnore
     @ManyToOne

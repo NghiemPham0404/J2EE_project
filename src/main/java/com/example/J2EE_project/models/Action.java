@@ -1,5 +1,6 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -22,7 +23,7 @@ public class Action {
     @Column(length = 50)
     private String name;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "action", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<RoleAction> roleActions;
 }
