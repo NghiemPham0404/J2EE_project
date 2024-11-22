@@ -1,8 +1,10 @@
 package com.example.J2EE_project.services;
 
 import com.example.J2EE_project.models.Account;
+import com.example.J2EE_project.models.Action;
 import com.example.J2EE_project.models.RoleAction;
 import com.example.J2EE_project.repositories.AccountRepository;
+import com.example.J2EE_project.repositories.ActionRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,9 +28,11 @@ public class JwtTokenService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private ActionService actionService;
+
     public String generateToken(String userName) {
         Account account = accountRepository.findByUsername(userName);
-        List<RoleAction> roleActions = account.getRole().getRoleActions();
 
         List<String> authorities = account.getRole().getRoleActions().stream()
                 .flatMap(roleAction -> Stream.of(
@@ -91,6 +95,23 @@ public class JwtTokenService {
             return bearerToken.substring(7);  // Remove "Bearer " prefix
         }
         return null;
+    }
+    public List<GrantedAuthority> getAllAuthorityForSwaggerUi(){
+        List<Action> actions = actionService.listAll();
+        System.out.println(actions.size());
+        List<String> authorityStringArray = new ArrayList<>();
+        for(Action action : actions){
+            authorityStringArray.add(action.getName() + " create");
+            authorityStringArray.add(action.getName() + " update");
+            authorityStringArray.add(action.getName() + " delete");
+            authorityStringArray.add(action.getName() + " read");
+        }
+        List<GrantedAuthority> authorities = authorityStringArray.stream().map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+        for (GrantedAuthority grantedAuthority : authorities) {
+            System.out.println(grantedAuthority);
+        }
+        return authorities;
     }
 }
 

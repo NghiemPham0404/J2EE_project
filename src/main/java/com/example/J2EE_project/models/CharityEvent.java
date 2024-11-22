@@ -1,6 +1,7 @@
 package com.example.J2EE_project.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,10 +32,12 @@ public class CharityEvent {
     @Lob
     private String description;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
@@ -45,7 +48,7 @@ public class CharityEvent {
     @Column
     private boolean isDisbursed;
 
-    @JsonBackReference
+    @JsonBackReference("post-charity")
     @OneToMany(mappedBy = "charityEvent")
     List<Post> posts;
 
@@ -58,6 +61,7 @@ public class CharityEvent {
 
     @PostPersist
     public void updateCurrentAmount() {
+        if(transferSessions == null) return;
         for (TransferSession session : transferSessions) {
             currentAmount = currentAmount.add(session.getAmount());
         }
