@@ -23,7 +23,7 @@ public class PostView {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy/mm/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;

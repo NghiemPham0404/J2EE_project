@@ -35,7 +35,7 @@ public class TransferSession {
     @Column(length = 280)
     private String description;
 
-    @JsonFormat(pattern = "yyyy/mm/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     private Date time;
 

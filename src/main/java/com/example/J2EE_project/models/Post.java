@@ -34,12 +34,12 @@ public class Post {
     @Lob
     private String body;
 
-    @JsonFormat(pattern = "yyyy/mm/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date timePost;
 
-    @JsonFormat(pattern = "yyyy/mm/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date approved;

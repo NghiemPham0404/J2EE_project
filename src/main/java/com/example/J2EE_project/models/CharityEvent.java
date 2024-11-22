@@ -32,12 +32,12 @@ public class CharityEvent {
     @Lob
     private String description;
 
-    @JsonFormat(pattern = "yyyy/mm/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
 
-    @JsonFormat(pattern = "yyyy/mm/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
@@ -61,6 +61,7 @@ public class CharityEvent {
 
     @PostPersist
     public void updateCurrentAmount() {
+        if(transferSessions == null) return;
         for (TransferSession session : transferSessions) {
             currentAmount = currentAmount.add(session.getAmount());
         }
