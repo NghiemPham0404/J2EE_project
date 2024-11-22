@@ -1,6 +1,9 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,12 +23,13 @@ public class PostView {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonFormat(pattern = "yyyy/mm/dd HH:mm:ss")
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference("post-postViews")
     @JoinColumn(name = "post_id", foreignKey = @ForeignKey(name = "FK_post_view_post"))
     private Post post;
 }
