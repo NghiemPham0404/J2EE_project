@@ -52,8 +52,7 @@ public class Post {
     private CharityEvent charityEvent;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "ac_id")
+    @JoinColumn(name = "ac_id", referencedColumnName = "id")
     private Account account;
 
     @OneToMany(mappedBy = "post")
@@ -68,7 +67,7 @@ public class Post {
     private long viewed;
 
     @PostLoad
-    private void updateAuthorAndView(){
+    private void updateAuthorAndView() {
         System.out.print("parse" + account.getName());
         author = account.getName();
         viewed = postViews.size();

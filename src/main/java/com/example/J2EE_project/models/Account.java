@@ -2,6 +2,7 @@ package com.example.J2EE_project.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class Account {
     private String username;
 
     @Column
+    @JsonIgnore
     private String password;
 
     @Column
@@ -43,12 +45,11 @@ public class Account {
     private boolean active;
 
     @ManyToOne
-    @JsonManagedReference
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "account")
-    @JsonBackReference
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Post> posts;
 }
 

@@ -1,6 +1,5 @@
 package com.example.J2EE_project.services;
 
-import com.example.J2EE_project.DTOs.AccountDTO;
 import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ public class PersonalInfoService {
      @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public AccountDTO getPersonalInfo(int id){
-        return new AccountDTO(accountRepository.findById(id).get());
+    public Account getPersonalInfo(int id){
+        return accountRepository.findById(id).get();
     }
 
     public String changePassword(int id,String rawPassword){
@@ -31,12 +30,12 @@ public class PersonalInfoService {
         return "Email changed successfully";
     }
 
-    public AccountDTO login(String username, String rawPassword){
+    public Account login(String username, String rawPassword){
         String hashedPassword = passwordEncoder.encode(rawPassword);
         Account account = accountRepository.login(username);
         if(account == null) return null;
         if(!passwordEncoder.matches(hashedPassword, account.getPassword())) return null;
-        return new AccountDTO(account);
+        return account;
     }
 
 }

@@ -16,7 +16,7 @@ public interface PostStatisticRepository extends JpaRepository<Account, Integer>
      * TODO : Thống kế số lượng bài viết của từng tài khoản
      */
     @Query("SELECT new com.example.J2EE_project.DTOs.MostPostsAccountsDTO(a.id, a.name, COUNT(p)) " +
-            "FROM Account a LEFT JOIN a.posts p " +
+            "FROM Post p Right JOIN p.account a " +
             "WHERE :startDate <= p.timePost OR p.timePost <= :endDate " +
             "GROUP BY a.id, a.name " +
             "ORDER BY COUNT(p) DESC")

@@ -1,5 +1,7 @@
 package com.example.J2EE_project.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,4 +26,8 @@ public class Role {
     @JsonManagedReference
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoleAction> roleActions;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "role")
+    private List<Account> accounts;
 }

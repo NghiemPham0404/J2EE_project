@@ -1,6 +1,6 @@
 package com.example.J2EE_project.controllers;
 
-import com.example.J2EE_project.DTOs.AccountDTO;
+import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.PersonalInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +19,7 @@ public class PersonalInfoController {
     // Get personal information by account ID
     @GetMapping("/{id}")
     @Operation(summary = "Lấy thông tin người dùng bằng id")
-    public AccountDTO getPersonalInfo(@PathVariable int id) {
+    public Account getPersonalInfo(@PathVariable int id) {
         return personalInfoService.getPersonalInfo(id);
     }
 
@@ -46,7 +46,7 @@ public class PersonalInfoController {
     // Login using username and password
     @PostMapping("/login")
     @Operation(summary = "Đăng nhập")
-    public AccountDTO login(
+    public Account login(
             @RequestParam String username,
             @RequestParam String password) {
         return personalInfoService.login(username, password);
