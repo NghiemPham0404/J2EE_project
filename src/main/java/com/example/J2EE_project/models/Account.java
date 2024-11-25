@@ -28,7 +28,7 @@ public class Account {
 
     @Column
     @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "yyyy/MM/dd")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private Date birthDate;
 
     @Column
