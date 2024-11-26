@@ -18,15 +18,15 @@ public class RoleAction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(name = "_create")
     private boolean create;
 
-    @Column
+    @Column(name = "_update")
     private boolean update;
-    @Column
+    @Column(name = "_delete")
     private boolean delete;
 
-    @Column
+    @Column(name = "_read")
     private boolean read;
 
     @ManyToOne

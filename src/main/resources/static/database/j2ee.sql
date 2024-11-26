@@ -32,13 +32,14 @@ CREATE TABLE IF NOT EXISTS `account` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
   CONSTRAINT `account_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table j2ee_project.account: ~3 rows (approximately)
+-- Dumping data for table j2ee_project.account: ~4 rows (approximately)
 INSERT INTO `account` (`id`, `name`, `birth_date`, `email`, `username`, `password`, `role_id`, `active`) VALUES
-	(1, 'Admin', '2000-10-14', 'admin@gmail.com', 'admin', 'admin', 1, 1),
-	(2, 'Nguyen Van Anh', '2003-08-13', 'nguyenvana@gmail.com', 'nguyena', '123123', 2, 1),
-	(3, 'Tran Van Bình', '2001-12-11', 'tranbinh@gmail.com', 'tranbinh', NULL, 3, 1);
+	(1, 'Admin', '2000-10-14', 'admin@gmail.com', 'admin', '$2a$10$MWTLsoZwIGxZbNXxyanJG.11bVqMqFSaOCzTqLpeNjcVoadU/ICDa', 1, 1),
+	(2, 'Nguyen Van Anh', '2003-08-13', 'nguyenvana@gmail.com', 'nguyena', '$2a$10$K09xFUB8MwzNRT41BiJane7hY1VYEiab.p6j513GDU3hB9JN/GKua', 2, 1),
+	(3, 'Tran Van Bình', '2001-12-11', 'tranbinh@gmail.com', 'tranbinh', '$2a$10$K09xFUB8MwzNRT41BiJane7hY1VYEiab.p6j513GDU3hB9JN/GKua', 3, 1),
+	(4, 'Nguyen Van Anh', '2003-08-11', 'nguyenvana@gmail.com', 'nguyena', '$2a$10$/cP5WZeOU3Fw7Ut8.IHIS.uvXc37cS7QI09fo2EHv2Cpp./.APob.', 1, 1);
 
 -- Dumping structure for table j2ee_project.action
 CREATE TABLE IF NOT EXISTS `action` (
@@ -68,8 +69,8 @@ CREATE TABLE IF NOT EXISTS `charity_event` (
 
 -- Dumping data for table j2ee_project.charity_event: ~2 rows (approximately)
 INSERT INTO `charity_event` (`id`, `name`, `description`, `start_time`, `end_time`, `goal_amount`, `is_disbursed`) VALUES
-	('4223b37d-bd82-4fd1-940d-652ba7ffaa38', 'Chung tay giúp đỡ các tỉnh miền Trung bị thiệt hại do mưa lũ.', 'Nhằm chia sẻ những khó khăn mà đồng bào miền Trung đang phải gánh chịu, được sự đồng ý của Thường trực Tỉnh ủy, Ủy ban Mặt trận Tổ quốc Việt Nam tỉnh đã kêu gọi “Toàn dân tham gia ủng hộ miền Trung bị thiệt hại do mưa lũ”.', '2024-09-01 00:00:00', '2024-09-30 23:59:59', NULL, 0),
-	('7126fc28-d632-4a7b-bdb5-a6cc30415380', 'Gây quỹ trao tặng cơ hội phẫu thuật cho 20 em bé hở môi, hàm ếch (Tháng 10/2024)', 'Năm 2024 đánh dấu năm thứ 35 Operation Smile hoạt động tại Việt Nam, hãy cùng chúng tôi tiếp sức cho 20 hoàn cảnh khó khăn ở các địa phương vùng cao phía Bắc có cơ hội tìm lại nụ cười cho con em mình.', '2024-10-01 12:45:17', '2024-11-01 12:45:18', NULL, 0);
+	('34323233-6233-3764-2d62-6438322d3466', 'Gây quỹ trao tặng cơ hội phẫu thuật cho 20 em bé hở môi, hàm ếch (Tháng 10/2024)', 'Năm 2024 đánh dấu năm thứ 35 Operation Smile hoạt động tại Việt Nam, hãy cùng chúng tôi tiếp sức cho 20 hoàn cảnh khó khăn ở các địa phương vùng cao phía Bắc có cơ hội tìm lại nụ cười cho con em mình.', '2024-10-01 12:45:17', '2024-11-01 12:45:18', 30000.00, 0),
+	('37313236-6663-3238-2d64-3633322d3461', 'Chung tay giúp đỡ các tỉnh miền Trung bị thiệt hại do mưa lũ.', 'Nhằm chia sẻ những khó khăn mà đồng bào miền Trung đang phải gánh chịu, được sự đồng ý của Thường trực Tỉnh ủy, Ủy ban Mặt trận Tổ quốc Việt Nam tỉnh đã kêu gọi “Toàn dân tham gia ủng hộ miền Trung bị thiệt hại do mưa lũ”.', '2024-09-01 00:00:00', '2024-09-30 23:59:59', 30000.00, 0);
 
 -- Dumping structure for table j2ee_project.post
 CREATE TABLE IF NOT EXISTS `post` (
@@ -88,9 +89,12 @@ CREATE TABLE IF NOT EXISTS `post` (
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`ac_id`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table j2ee_project.post: ~1 rows (approximately)
+-- Dumping data for table j2ee_project.post: ~3 rows (approximately)
 INSERT INTO `post` (`id`, `title`, `body`, `time_post`, `approved`, `thumb_img`, `ce_id`, `ac_id`) VALUES
-	('0779bf43-231c-4a8e-b32e-00c209c91d4b', 'Chung tay giúp đỡ các tỉnh miền Trung bị thiệt hại do mưa lũ.', NULL, '2024-08-01 10:55:31', NULL, NULL, '4223b37d-bd82-4fd1-940d-652ba7ffaa38', 1);
+	('6eb66d3f-48bb-4d76-8eae-993d5a2d10b0', 'Ủng hộ 2', 'Ủng hộ', '2024-11-05 22:36:21', '2024-11-05 22:36:20', 'sfsdf', '37313236-6663-3238-2d64-3633322d3461', 1),
+	('c1f2048b-5891-46c2-ba19-47a872afaf15', 'Ủng hộ 1', 'Ủng hộ', '2024-11-05 22:36:21', '2024-11-05 22:36:20', 'sfsdf', '37313236-6663-3238-2d64-3633322d3461', 1),
+	('eed94c01-fdc2-4057-8de1-c2f55eb2055a', 'Ủng hộ 1', 'Ủng hộ', '2024-11-05 22:36:21', '2024-11-05 22:36:20', 'sfsdf', '37313236-6663-3238-2d64-3633322d3461', 1),
+	('fef8e348-46af-4b2a-87d4-af803ba0c952', 'string', 'string', '2024-11-22 15:26:19', '2024-11-22 15:26:19', 'string', '37313236-6663-3238-2d64-3633322d3461', 1);
 
 -- Dumping structure for table j2ee_project.post_view
 CREATE TABLE IF NOT EXISTS `post_view` (
@@ -100,9 +104,11 @@ CREATE TABLE IF NOT EXISTS `post_view` (
   PRIMARY KEY (`id`),
   KEY `post_id` (`post_id`),
   CONSTRAINT `FK_post_view_post` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table j2ee_project.post_view: ~0 rows (approximately)
+INSERT INTO `post_view` (`id`, `time`, `post_id`) VALUES
+	(1, '2024-11-22 14:37:55', 'c1f2048b-5891-46c2-ba19-47a872afaf15');
 
 -- Dumping structure for table j2ee_project.role
 CREATE TABLE IF NOT EXISTS `role` (
@@ -122,26 +128,27 @@ CREATE TABLE IF NOT EXISTS `role_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) DEFAULT NULL,
   `action_id` int(11) DEFAULT NULL,
-  `create` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
-  `update` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
-  `delete` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
-  `read` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
+  `_create` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
+  `_update` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
+  `_delete` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
+  `_read` tinyint(1) unsigned zerofill NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `role_id_action_id` (`role_id`,`action_id`),
   KEY `action_id` (`action_id`),
   CONSTRAINT `role_action_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
   CONSTRAINT `role_action_ibfk_2` FOREIGN KEY (`action_id`) REFERENCES `action` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table j2ee_project.role_action: ~7 rows (approximately)
-INSERT INTO `role_action` (`id`, `role_id`, `action_id`, `create`, `update`, `delete`, `read`) VALUES
+-- Dumping data for table j2ee_project.role_action: ~8 rows (approximately)
+INSERT INTO `role_action` (`id`, `role_id`, `action_id`, `_create`, `_update`, `_delete`, `_read`) VALUES
 	(1, 1, 1, 1, 1, 1, 1),
 	(2, 1, 2, 1, 1, 1, 1),
 	(3, 1, 3, 1, 1, 1, 1),
 	(4, 1, 4, 0, 0, 0, 1),
 	(5, 2, 2, 1, 1, 1, 1),
 	(6, 2, 3, 1, 1, 1, 1),
-	(7, 3, 4, 0, 1, 0, 1);
+	(7, 3, 4, 0, 1, 0, 1),
+	(8, 3, 2, 0, 0, 0, 1);
 
 -- Dumping structure for table j2ee_project.transfer_session
 CREATE TABLE IF NOT EXISTS `transfer_session` (
