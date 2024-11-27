@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @DataJpaTest
 public class AccountRepositoryTest {
@@ -23,6 +25,7 @@ public class AccountRepositoryTest {
         account = new Account();
         account.setUsername("admin");
         account.setPassword("admin");
+		account.setName("anh");
 		account.setActive(true);
         accountRepository.save(account);
 	}
@@ -40,6 +43,14 @@ public class AccountRepositoryTest {
         Account account1 = accounts.get(0);
 		System.out.println("active : " + account1.isActive());
         assertThat(account1.isActive()).isEqualTo(Boolean.TRUE);
+	}
+
+	@Test
+	void findByNameIgnoreCase(){
+		Page<Account> accountPage = accountRepository.findByNameIgnoreCase("Anh", PageRequest.of(0, 10));
+		List<Account> accounts = accountPage.getContent();
+		System.out.println("page : " + accountPage.getNumber() +" max page : " + accountPage.getTotalPages());
+		assertThat(accounts.get(0).getName()).isEqualTo("anh");
 	}
 
 }

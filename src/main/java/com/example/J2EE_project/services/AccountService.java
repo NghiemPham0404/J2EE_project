@@ -96,7 +96,7 @@ public class AccountService{
     public Page<Account> listByName(String name, int page) {
         if(page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
         Pageable pageable = PageRequest.of(page, 10);
-        Page<Account> accountPage = accountRepository.findByNameIgnoreCase(name, pageable);
+        Page<Account> accountPage = accountRepository.findByNameContaining(name, pageable);
         if(page + 1 > accountPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
         return accountPage;
     }
