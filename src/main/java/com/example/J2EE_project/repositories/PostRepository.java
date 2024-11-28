@@ -20,7 +20,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, PagingAndSort
      /**
      * TODO : Tìm các bài viết cho người xem
      * */
-    @Query("SELECT a FROM Post a WHERE a.approved != null")
+    @Query("SELECT a FROM Post a WHERE a.approved <= CURRENT_TIMESTAMP")
     Page<Post> findAllForViewer(Pageable pageable);
 
     /**
