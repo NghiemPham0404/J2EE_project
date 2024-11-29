@@ -52,8 +52,7 @@ public class Post {
     private CharityEvent charityEvent;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "ac_id")
+    @JoinColumn(name = "ac_id", referencedColumnName = "id")
     private Account account;
 
     @OneToMany(mappedBy = "post")

@@ -1,6 +1,6 @@
 package com.example.J2EE_project.controllers;
 
-import com.example.J2EE_project.DTOs.AccountDTO;
+import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.DTOs.JwtDto;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.PersonalInfoService;
@@ -27,7 +27,7 @@ public class PersonalInfoController {
     // Get personal information by account ID
     @GetMapping("/{id}")
     @Operation(summary = "Lấy thông tin người dùng bằng id")
-    public AccountDTO getPersonalInfo(@PathVariable int id, HttpServletRequest httpServletRequest) {
+    public Account getPersonalInfo(@PathVariable int id, HttpServletRequest httpServletRequest) {
         String username = jwtTokenProvider.getUsernameFromToken(jwtTokenProvider.extractTokenFromRequest(httpServletRequest));
         return personalInfoService.getPersonalInfo(id, username);
     }
@@ -58,7 +58,7 @@ public class PersonalInfoController {
     public JwtDto login(@RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password) {
         System.out.println("Username : "+username +" Password : "+password);
-        AccountDTO account = personalInfoService.login(username, password);
+        Account account = personalInfoService.login(username, password);
         String token = jwtTokenProvider.generateToken(account.getUsername());
         Date current = new Date(System.currentTimeMillis() + 864000);
         String expiredAt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(current);

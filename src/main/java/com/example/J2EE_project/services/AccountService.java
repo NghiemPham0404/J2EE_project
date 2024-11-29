@@ -1,6 +1,6 @@
 package com.example.J2EE_project.services;
 
-import com.example.J2EE_project.DTOs.AccountDTO;
+
 import com.example.J2EE_project.exceptions.InvalidPageException;
 import com.example.J2EE_project.exceptions.NotFoundException;
 import com.example.J2EE_project.models.Account;
@@ -32,8 +32,7 @@ public class AccountService{
     /**
      * Thêm mới một tài khoản
      */
-    public String create(AccountDTO accountDTO) {
-        Account account = accountDTO.toAccount();
+    public String create(Account account) {
         SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
         account.setPassword(passwordEncoder.encode(formatter.format(account.getBirthDate())));
         accountRepository.save(account);
@@ -44,17 +43,16 @@ public class AccountService{
      * Thêm mới một tài khoản
      */
     public String create(String name, Date birthDate, String username, String email, boolean active, int role_id) {
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setName(name);
-        accountDTO.setBirthDate(birthDate);
-        accountDTO.setUsername(username);
-        accountDTO.setEmail(email);
-        accountDTO.setActive(active);
+        Account account = new Account();
+        account.setName(name);
+        account.setBirthDate(birthDate);
+        account.setUsername(username);
+        account.setEmail(email);
+        account.setActive(active);
 
         Role role = roleRepository.findById(role_id).get();
-        accountDTO.setRole(role);
+        account.setRole(role);
 
-        Account account = accountDTO.toAccount();
         SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
         account.setPassword(passwordEncoder.encode(formatter.format(account.getBirthDate())));
         accountRepository.save(account);
@@ -64,8 +62,7 @@ public class AccountService{
     /**
      *Cập nhật thông tin tài khoản
      */
-    public String update(AccountDTO accountDTO) {
-        Account account = accountDTO.toAccount();
+    public String update(Account account) {
         accountRepository.save(account);
         return "account updated successfully";
     }
@@ -81,39 +78,38 @@ public class AccountService{
     /**
      *Lấy tài khoản theo id
      */
-    public AccountDTO get(Integer id) {
-        Account account = accountRepository.findById(id).orElseThrow(() -> new NotFoundException(NotFoundException.NOT_FOUND));
-        return new AccountDTO(account);
+    public Account get(Integer id) {
+        return accountRepository.findById(id).orElseThrow(() -> new NotFoundException(NotFoundException.NOT_FOUND));
     }
 
-    public Page<AccountDTO> listAllAccount(int id, int page){
+    public Page<Account> listAllAccount(int id, int page){
         if(page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
         Pageable pageable = PageRequest.of(page, 10);
         Page<Account> accountPage = accountRepository.listAllAccount(id, pageable);
         if(page + 1 > accountPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
-        return accountPage.map(AccountDTO::new);
+        return accountPage;
     }
 
     /**
      *Lấy tất cả tài khoản theo tên
      */
-    public Page<AccountDTO> listByName(String name, int page) {
+    public Page<Account> listByName(String name, int page) {
         if(page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
         Pageable pageable = PageRequest.of(page, 10);
-        Page<Account> accountPage = accountRepository.findByNameIgnoreCase(name, pageable);
+        Page<Account> accountPage = accountRepository.findByNameContainingIgnoreCase(name, pageable);
         if(page + 1 > accountPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
-        return accountPage.map(AccountDTO::new);
+        return accountPage;
     }
 
      /**
      *Lấy tất cả tài khoản theo role
      */
-    public Page<AccountDTO> listByRole(int role_id, int page) {
+    public Page<Account> listByRole(int role_id, int page) {
         if(page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
         Pageable pageable = PageRequest.of(page, 10);
         Page<Account> accountPage = accountRepository.findByRole(role_id, pageable);
         if(page + 1 > accountPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
-        return accountPage.map(AccountDTO::new);
+        return accountPage;
     }
 
     /**

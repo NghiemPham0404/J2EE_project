@@ -1,5 +1,7 @@
 package com.example.J2EE_project.services;
 
+import com.example.J2EE_project.DTOs.MostCharitablePeopleDTO;
+import com.example.J2EE_project.DTOs.MostDonationEventsDTO;
 import com.example.J2EE_project.DTOs.MostPostsAccountsDTO;
 import com.example.J2EE_project.repositories.EventStatisticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,11 @@ public class EventStatisticService {
     @Autowired
     private EventStatisticRepository eventStatisticRepository;
 
-    public List<MostPostsAccountsDTO> statisticMostDonationEvents(Date startDate, Date endDate){
+    public List<MostDonationEventsDTO> statisticMostDonationEvents(Date startDate, Date endDate){
         return eventStatisticRepository.statisticMostDonationEvents(startDate, endDate);
     }
 
-    public List<MostPostsAccountsDTO> statisticMostCharitablePeople(String charityEventId, Date startDate, Date endDate){
+    public List<MostCharitablePeopleDTO> statisticMostCharitablePeople(String charityEventId, Date startDate, Date endDate){
         return eventStatisticRepository.statisticMostCharitablePeople(UUID.fromString(charityEventId), startDate, endDate);
     }
 }

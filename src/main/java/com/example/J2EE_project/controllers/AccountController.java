@@ -1,6 +1,6 @@
 package com.example.J2EE_project.controllers;
 
-import com.example.J2EE_project.DTOs.AccountDTO;
+import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.response.ResponseBuilder;
 import com.example.J2EE_project.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +27,7 @@ public class AccountController {
     @Operation(summary = "Thêm mới một tài khoản")
     @ApiResponse(responseCode = "200", description = "Account created successfully")
     @PostMapping
-    public ResponseEntity<Object> createAccount(@RequestBody AccountDTO account) {
+    public ResponseEntity<Object> createAccount(@RequestBody Account account) {
         return ResponseBuilder.buildResponse(accountService.create(account), HttpStatus.OK);
     }
 
@@ -38,7 +38,7 @@ public class AccountController {
     @PutMapping("/{id}")
     @Operation(summary = "Sửa một tài khoản")
     @ApiResponse(responseCode = "200", description = "Account updated successfully")
-    public ResponseEntity<Object> updateAccount(@PathVariable Integer id, @RequestBody AccountDTO updatedAccount) {
+    public ResponseEntity<Object> updateAccount(@PathVariable Integer id, @RequestBody Account updatedAccount) {
         accountService.get(id);
         return ResponseBuilder.buildResponse(accountService.update(updatedAccount), HttpStatus.OK);
     }
@@ -61,7 +61,7 @@ public class AccountController {
     @Operation(summary = "Lấy tài khoản theo id")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved account")
     @GetMapping("/{id}")
-    public AccountDTO getAccount(@PathVariable Integer id) {
+    public Account getAccount(@PathVariable Integer id) {
         return accountService.get(id);
     }
 

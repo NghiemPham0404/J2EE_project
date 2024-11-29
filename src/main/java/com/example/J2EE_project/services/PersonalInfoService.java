@@ -1,6 +1,5 @@
 package com.example.J2EE_project.services;
 
-import com.example.J2EE_project.DTOs.AccountDTO;
 import com.example.J2EE_project.exceptions.LoginException;
 import com.example.J2EE_project.exceptions.NotAuthorizedException;
 import com.example.J2EE_project.models.Account;
@@ -18,10 +17,10 @@ public class PersonalInfoService {
      @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public AccountDTO getPersonalInfo(int id, String username){
-        AccountDTO accountDTO =  new AccountDTO(accountRepository.findById(id).get());
-        if(accountDTO.getUsername().equals(username)){
-            return accountDTO;
+    public Account getPersonalInfo(int id, String username){
+        Account account =  accountRepository.findById(id).get();
+        if(account.getUsername().equals(username)){
+            return account;
         }else{
             throw new NotAuthorizedException(NotAuthorizedException.NOT_AUTHORIZED);
         }
@@ -38,7 +37,7 @@ public class PersonalInfoService {
         return "Email changed successfully";
     }
 
-    public AccountDTO login(String username, String rawPassword){
+    public Account login(String username, String rawPassword){
         Account account = accountRepository.login(username);
         if(account == null){
             throw new LoginException(LoginException.NON_EXIST_USER);
@@ -46,7 +45,7 @@ public class PersonalInfoService {
         if(!passwordEncoder.matches(rawPassword, account.getPassword())){
             throw new LoginException(LoginException.WRONG_PASSWORD);
         }
-        return new AccountDTO(account);
+        return account;
     }
 
 }
