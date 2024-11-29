@@ -26,7 +26,7 @@ public interface PostStatisticRepository extends JpaRepository<Account, Integer>
      * TODO : Thống kê lượt xem của các Post
      */
     @Query("SELECT new com.example.J2EE_project.DTOs.MostViewedPostsDTO(p.id, p.title, COUNT(p)) " +
-            "FROM Post p LEFT JOIN PostView pv " +
+            "FROM Post p LEFT JOIN p.postViews pv " +
             "WHERE :startDate <= pv.time OR pv.time <= :endDate " +
             "GROUP BY p.id, p.title " +
             "ORDER BY COUNT(p) DESC")
