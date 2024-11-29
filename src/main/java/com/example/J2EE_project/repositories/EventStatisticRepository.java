@@ -1,6 +1,7 @@
 package com.example.J2EE_project.repositories;
 
-import com.example.J2EE_project.DTOs.MostPostsAccountsDTO;
+import com.example.J2EE_project.DTOs.MostCharitablePeopleDTO;
+import com.example.J2EE_project.DTOs.MostDonationEventsDTO;
 import com.example.J2EE_project.models.CharityEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,7 +22,7 @@ public interface EventStatisticRepository extends JpaRepository<CharityEvent, UU
             "WHERE :startDate <= ce.startTime OR ce.endTime <= :endDate " +
             "GROUP BY ce.id, ce.name, ce.goalAmount " +
             "ORDER BY SUM(ts.amount) DESC")
-    List<MostPostsAccountsDTO> statisticMostDonationEvents(Date startDate, Date endDate);
+    List<MostDonationEventsDTO> statisticMostDonationEvents(Date startDate, Date endDate);
 
     /**
      * TODO : Thống kế những người ủng hộ nhiều nhất trong 1 Charity Event
@@ -31,5 +32,5 @@ public interface EventStatisticRepository extends JpaRepository<CharityEvent, UU
             "WHERE (:startDate <= ce.startTime OR ce.endTime <= :endDate) AND ce.id = :ce_id " +
             "GROUP BY ts.id " +
             "ORDER BY ts.amount DESC")
-    List<MostPostsAccountsDTO> statisticMostCharitablePeople(UUID ce_id, Date startDate, Date endDate);
+    List<MostCharitablePeopleDTO> statisticMostCharitablePeople(UUID ce_id, Date startDate, Date endDate);
 }

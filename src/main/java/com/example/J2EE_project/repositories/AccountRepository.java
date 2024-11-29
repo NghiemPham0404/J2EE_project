@@ -28,7 +28,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer>, Crud
     /**
      *Tìm tài khoản theo tên
      */
-     Page<Account> findByNameIgnoreCase(String name, Pageable pageable);
+     Page<Account> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
     /**
      *Tìm tài khoản role
