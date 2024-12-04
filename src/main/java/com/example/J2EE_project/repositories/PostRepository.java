@@ -32,7 +32,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, PagingAndSort
     /**
      * TODO :  Tìm các bài viết bằng title (cho người xem)
      * */
-    @Query("SELECT a FROM Post a WHERE a.title like %:title% and a.approved != null")
+    @Query("SELECT a FROM Post a WHERE a.title like %:title% and a.approved <= CURRENT_TIMESTAMP")
     Page<Post> findAllByTitleForViewer(Pageable pageable,String title);
 
     /**
