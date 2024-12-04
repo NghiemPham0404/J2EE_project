@@ -48,4 +48,12 @@ public class StatisticController {
                                                                 @RequestParam(value = "endTime") Date endTime) {
         return ResponseBuilder.buildResponse(eventStatisticService.statisticMostCharitablePeople(charityEventId, startTime, endTime), HttpStatus.OK);
     }
+
+    @Operation(summary = "Thống kê những charity event được giải ngân trong một khoản thời gian nhất định")
+    @GetMapping("charity-event/disburse")
+    public ResponseEntity<Object> statisticMostCharitablePeople(
+                                                                @RequestParam(value = "startTime") Date startTime,
+                                                                @RequestParam(value = "endTime") Date endTime) {
+        return ResponseBuilder.buildResponse(eventStatisticService.getCharityEventBeDisbursedIn(startTime, endTime), HttpStatus.OK);
+    }
 }

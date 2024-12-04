@@ -4,6 +4,7 @@ import com.example.J2EE_project.DTOs.MostCharitablePeopleDTO;
 import com.example.J2EE_project.DTOs.MostDonationEventsDTO;
 import com.example.J2EE_project.DTOs.MostPostsAccountsDTO;
 import com.example.J2EE_project.models.CharityEvent;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -34,4 +35,9 @@ public interface EventStatisticRepository extends JpaRepository<CharityEvent, UU
             "GROUP BY ts.id " +
             "ORDER BY ts.amount DESC")
     List<MostCharitablePeopleDTO> statisticMostCharitablePeople(UUID ce_id, Date startDate, Date endDate);
+
+     @Query("SELECT ce FROM CharityEvent ce " +
+       "where ce.isDisbursed =true " +
+       "AND (ce.startTime >= :startDate AND ce.endTime <= :endDate) ")
+     List<CharityEvent> getCharityEventBeDisbursedIn(Date startDate, Date endDate);
 }
