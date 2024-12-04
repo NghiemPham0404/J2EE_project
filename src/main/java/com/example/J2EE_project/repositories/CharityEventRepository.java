@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -66,6 +67,7 @@ public interface CharityEventRepository extends JpaRepository<CharityEvent, UUID
       * TODO : giải ngân một sự kiện từ thiện
       * */
      @Modifying
+     @Transactional
      @Query("update CharityEvent ce set ce.isDisbursed = true where ce.id = :id")
      void disburseCharityEvent(UUID id);
 }
