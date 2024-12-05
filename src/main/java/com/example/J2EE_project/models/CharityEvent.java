@@ -59,7 +59,7 @@ public class CharityEvent {
     @Transient
     private BigDecimal currentAmount = new BigDecimal(0);
 
-    @PostPersist
+    @PostLoad
     public void updateCurrentAmount() {
         if(transferSessions == null) return;
         for (TransferSession session : transferSessions) {
