@@ -33,4 +33,10 @@ public interface EventStatisticRepository extends JpaRepository<CharityEvent, UU
             "GROUP BY ts.id " +
             "ORDER BY ts.amount DESC")
     List<MostCharitablePeopleDTO> statisticMostCharitablePeople(UUID ce_id, Date startDate, Date endDate);
+
+
+     @Query("SELECT ce FROM CharityEvent ce " +
+       "where ce.isDisbursed =true " +
+       "AND (ce.startTime >= :startDate AND ce.endTime <= :endDate) ")
+     List<CharityEvent> getCharityEventBeDisbursedIn(Date startDate, Date endDate);
 }
