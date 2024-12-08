@@ -36,11 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
         if (path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs")) {
-//            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-//                    "admin"
-//                    , null,
-//                    jwtTokenProvider.getAllAuthorityForSwaggerUi()
-//                    ));
             filterChain.doFilter(request, response);
             return;
         }

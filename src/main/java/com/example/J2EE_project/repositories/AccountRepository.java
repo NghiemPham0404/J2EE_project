@@ -62,4 +62,10 @@ public interface AccountRepository extends JpaRepository<Account, Integer>, Crud
       * */
      @Query("Select a from Account a where a.username = :username")
      Account login(String username);
+
+     /**
+      * Tìm tài khoản với email
+      * */
+     @Query("Select a from Account a where a.email = :email")
+     Account validEmail(String email);
 }

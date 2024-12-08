@@ -166,7 +166,6 @@ public class CharityEventController {
         return ResponseBuilder.buildResponse(charityEventService.disburseCharityEvent(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('Accounting read')")
     @Operation(summary = "Sao kê")
     @GetMapping("{id}/all-transfer")
     public ResponseEntity<Object> getAllTransferOfCharityEvent(@PathVariable String id) {
@@ -177,9 +176,7 @@ public class CharityEventController {
     @Operation(summary = "chuyển khoản đến 1 charity event")
     @PostMapping("transfer")
     public ResponseEntity<Object> transferToCharityEvent(@RequestBody TransferSession transferSession, @RequestParam String id) {
-        CharityEvent ce = getCharityEventById(id);
-        transferSession.setCharityEvent(ce);
-        return ResponseBuilder.buildResponse(transferService.transfer(transferSession), HttpStatus.OK);
+        return ResponseBuilder.buildResponse(transferService.transfer(transferSession, id), HttpStatus.OK);
     }
 }
 

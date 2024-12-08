@@ -65,6 +65,15 @@ public class PostController {
     }
 
     /**
+     * TODO : Lấy một Post bằng id cho người xem
+     */
+    @GetMapping("/approved/{id}")
+    @Operation(summary = "Lấy một post bằng id cho người xem")
+    public Post getPostByIdForUser(@PathVariable String id) {
+        return postService.getForUser(id);
+    }
+
+    /**
      * TODO : Lấy danh sách tất cả các post
      */
     @PreAuthorize("hasAuthority('Post Management read')")

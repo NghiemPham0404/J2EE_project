@@ -122,6 +122,13 @@ public class PostService {
         return postRepository.findById(UUID.fromString(id)).orElseThrow(() -> new NotFoundException(NotFoundException.NOT_FOUND));
     }
 
+     /**
+     * TODO : lấy một post
+     * */
+    public Post getForUser(String id) {
+        return postRepository.findById(UUID.fromString(id)).orElseThrow(() -> new NotFoundException(NotFoundException.NOT_FOUND));
+    }
+
     /**
      * TODO : Duyệt một post
      * */

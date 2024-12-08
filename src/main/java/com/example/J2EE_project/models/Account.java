@@ -44,7 +44,6 @@ public class Account {
     private boolean active;
 
     @ManyToOne
-    @JsonManagedReference
     @JoinColumn(name = "role_id")
     private Role role;
 

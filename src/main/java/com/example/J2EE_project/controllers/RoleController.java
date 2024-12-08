@@ -31,14 +31,14 @@ public class RoleController {
         return roleService.get(id);
     }
 
-    @PreAuthorize("hasAuthority('Post Management create')")
+    @PreAuthorize("hasAuthority('Role Management create')")
     @Operation(summary = "Tạo một role")
     @PostMapping
     public ResponseEntity<Object> createRole(@RequestBody Role role) {
         return ResponseBuilder.buildResponse(roleService.create(role), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('Post Management update')")
+    @PreAuthorize("hasAuthority('Role Management update')")
     @Operation(summary = "Sửa một role")
     @PutMapping("{id}")
     public ResponseEntity<Object> updateRole(@PathVariable("id") int id, @RequestBody Role role) {
@@ -46,7 +46,7 @@ public class RoleController {
         return ResponseBuilder.buildResponse(roleService.update(role), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('Post Management read')")
+    @PreAuthorize("hasAuthority('Role Management read')")
     @Operation(summary = "Lấy role dựa trên id")
     @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteRole(@PathVariable("id") int id) {

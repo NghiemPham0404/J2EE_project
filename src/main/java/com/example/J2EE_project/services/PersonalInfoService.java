@@ -26,10 +26,18 @@ public class PersonalInfoService {
         }
     }
 
+    public Account getPersonalInfoByUsername(String extractedUsername) {
+       return accountRepository.login(extractedUsername);
+    }
+
     public String changePassword(int id,String rawPassword){
         String hashedPassword = passwordEncoder.encode(rawPassword);
         accountRepository.updatePassword(id, hashedPassword);
         return "Password changed successfully";
+    }
+
+    public boolean validateEmail(String email){
+        return accountRepository.validEmail(email) != null;
     }
 
     public String changeEmail(int id, String email){
@@ -48,4 +56,8 @@ public class PersonalInfoService {
         return account;
     }
 
+    public String isAdmin(String username){
+           Account account = accountRepository.login(username);
+           return account.getRole().getName().equals("Admin") ? "Yes" : "No";
+    }
 }
