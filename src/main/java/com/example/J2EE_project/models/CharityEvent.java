@@ -45,8 +45,10 @@ public class CharityEvent {
     @Column
     private BigDecimal goalAmount;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Column
-    private boolean isDisbursed;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date isDisbursed;
 
     @JsonBackReference("post-charity")
     @OneToMany(mappedBy = "charityEvent")
@@ -61,7 +63,7 @@ public class CharityEvent {
 
     @PostLoad
     public void updateCurrentAmount() {
-        if(transferSessions == null) return;
+        if (transferSessions == null) return;
         for (TransferSession session : transferSessions) {
             currentAmount = currentAmount.add(session.getAmount());
         }

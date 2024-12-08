@@ -31,12 +31,12 @@ public interface EventStatisticRepository extends JpaRepository<CharityEvent, UU
             "FROM CharityEvent ce LEFT JOIN ce.transferSessions ts " +
             "WHERE (:startDate <= ce.startTime OR ce.endTime <= :endDate) AND ce.id = :ce_id " +
             "GROUP BY ts.id " +
-            "ORDER BY ts.amount DESC")
+            "ORDER BY ts.amount DESC " +
+            "LIMIT 10")
     List<MostCharitablePeopleDTO> statisticMostCharitablePeople(UUID ce_id, Date startDate, Date endDate);
 
 
      @Query("SELECT ce FROM CharityEvent ce " +
-       "where ce.isDisbursed =true " +
-       "AND (ce.startTime >= :startDate AND ce.endTime <= :endDate) ")
+       "where ce.isDisbursed >= :startDate AND ce.isDisbursed <= :endDate")
      List<CharityEvent> getCharityEventBeDisbursedIn(Date startDate, Date endDate);
 }

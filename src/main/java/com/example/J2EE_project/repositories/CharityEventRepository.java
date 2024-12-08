@@ -32,7 +32,7 @@ public interface CharityEventRepository extends JpaRepository<CharityEvent, UUID
      */
      @Query("SELECT ce FROM CharityEvent ce " +
            "LEFT JOIN ce.transferSessions ts " +
-           "WHERE ce.startTime < CURRENT_TIMESTAMP AND ce.endTime > CURRENT_TIMESTAMP AND ce.isDisbursed = false " +
+           "WHERE ce.startTime <= CURRENT_TIMESTAMP AND ce.endTime >= CURRENT_TIMESTAMP " +
              "GROUP BY ce " +
              "HAVING SUM(ts.amount) < ce.goalAmount OR SUM(ts.amount) is null")
      Page<CharityEvent> getCharityEventNotEnd(Pageable pageable);
@@ -59,7 +59,7 @@ public interface CharityEventRepository extends JpaRepository<CharityEvent, UUID
      @Query("SELECT ce FROM CharityEvent ce " +
            "LEFT JOIN ce.transferSessions ts " +
            "GROUP BY ce " +
-           "HAVING ce.isDisbursed = false " +
+           "HAVING ce.isDisbursed is null " +
            "AND (ce.endTime < CURRENT_TIMESTAMP OR SUM(ts.amount) >= ce.goalAmount)")
     Page<CharityEvent>getCharityEventNotBeDisbursed(Pageable pageable);
 
@@ -68,6 +68,6 @@ public interface CharityEventRepository extends JpaRepository<CharityEvent, UUID
       * */
      @Modifying
      @Transactional
-     @Query("update CharityEvent ce set ce.isDisbursed = true where ce.id = :id")
+     @Query("update CharityEvent ce set ce.isDisbursed = CURRENT_TIMESTAMP where ce.id = :id")
      void disburseCharityEvent(UUID id);
 }
