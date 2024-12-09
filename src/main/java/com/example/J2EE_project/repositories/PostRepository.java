@@ -24,6 +24,12 @@ public interface PostRepository extends JpaRepository<Post, UUID>, PagingAndSort
     Page<Post> findAllForViewer(Pageable pageable);
 
     /**
+     * TODO : Tìm các bài viết chưa duyệt
+     * */
+    @Query("SELECT a FROM Post a WHERE a.approved is null")
+    Page<Post> findAllNotApprovedYet(Pageable pageable);
+
+    /**
      * TODO :  Tìm các bài viết bằng title (cho admin)
      * */
     @Query("SELECT a FROM Post a WHERE a.title like %:title%")

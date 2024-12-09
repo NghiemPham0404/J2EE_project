@@ -95,6 +95,16 @@ public class PostController {
     }
 
     /**
+     * TODO : Lấy danh sách tất cả các post chưa duyệt
+     */
+    @GetMapping("/not-approved")
+    @Operation(summary = "Lấy danh sách tất cả các post chưa duyệt")
+    public ResponseEntity<Object> listAllPostsNotApprovedYet(@RequestParam(defaultValue = "0") int page) {
+        Page<Post> posts = postService.listAllNotApprovedYet(page);
+        return ResponseBuilder.buildResponse(posts, HttpStatus.OK);
+    }
+
+    /**
      * TODO : Lấy danh sách tất cả các post do chính mình viết
      */
     @PreAuthorize("hasAuthority('Post Management read')")

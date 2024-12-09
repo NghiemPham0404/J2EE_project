@@ -81,6 +81,17 @@ public class PostService {
         return postPage;
     }
 
+    /**
+     * TODO : Hiển thị tất cả post chưa duyệt theo trang
+     * */
+    public Page<Post> listAllNotApprovedYet(int page) {
+        if (page < 0) throw new InvalidPageException(InvalidPageException.PAGE_NOT_LESS_THAN_ONE);
+        Pageable pageable = PageRequest.of(page, 20);
+        Page<Post> postPage = postRepository.findAllNotApprovedYet(pageable);
+        if(page+1 > postPage.getTotalPages()) throw new InvalidPageException(InvalidPageException.OUT_OF_BOUNDS);
+        return postPage;
+    }
+
 
     /**
      * TODO : tìm kiếm tất cả post (do chính mình viết) theo trang
