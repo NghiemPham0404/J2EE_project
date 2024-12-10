@@ -2,6 +2,7 @@ package com.example.J2EE_project.services;
 
 import com.example.J2EE_project.exceptions.LoginException;
 import com.example.J2EE_project.exceptions.NotAuthorizedException;
+import com.example.J2EE_project.exceptions.NotFoundException;
 import com.example.J2EE_project.models.Account;
 import com.example.J2EE_project.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,10 @@ public class PersonalInfoService {
         return account;
     }
 
-    public String isAdmin(String username){
+    public boolean isAdmin(String username){
            Account account = accountRepository.login(username);
-           return account.getRole().getName().equals("Admin") ? "Yes" : "No";
+           if(account == null) throw new NotFoundException(NotFoundException.NOT_FOUND);
+           System.out.print(account.getRole().getName());
+           return account.getRole().getName().equalsIgnoreCase("Administrator");
     }
 }

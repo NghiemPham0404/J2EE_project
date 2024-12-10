@@ -84,7 +84,8 @@ public class PersonalInfoController {
 
     @GetMapping("/validateAdmin")
     @Operation(summary = "Kiểm tra có phải admin không")
-    public String isAdmin(@RequestParam(value = "username") String username){
+    public boolean
+    isAdmin(@RequestParam(value = "username") String username){
            return personalInfoService.isAdmin(username);
     }
 }
