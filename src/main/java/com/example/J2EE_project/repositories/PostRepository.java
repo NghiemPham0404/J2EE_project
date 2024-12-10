@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -51,6 +52,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, PagingAndSort
       * TODO : duyệt một post
       * */
      @Modifying
+     @Transactional
      @Query("UPDATE Post ce SET ce.approved = CURRENT_TIMESTAMP WHERE ce.id = :id")
      void approvePost(UUID id);
 }
