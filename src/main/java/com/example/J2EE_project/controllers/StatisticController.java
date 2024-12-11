@@ -57,4 +57,10 @@ public class StatisticController {
                                                                 @RequestParam(value = "endTime") Date endTime) {
         return ResponseBuilder.buildResponse(eventStatisticService.getCharityEventBeDisbursedIn(startTime, endTime), HttpStatus.OK);
     }
+
+    @Operation(summary = "Thống kê top 10 nguời donate nhiều nhất trong một chương trình từ thiện")
+    @GetMapping("charity-event/{ce_id}/top-10")
+    public ResponseEntity<Object> statisticTop10CharitablePeople(@PathVariable("ce_id") String charityEventId) {
+        return ResponseBuilder.buildResponse(eventStatisticService.statisticMostCharitablePeople(charityEventId), HttpStatus.OK);
+    }
 }

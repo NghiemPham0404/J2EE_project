@@ -28,4 +28,8 @@ public class EventStatisticService {
     public List<CharityEvent> getCharityEventBeDisbursedIn(Date startDate, Date endDate){
         return eventStatisticRepository.getCharityEventBeDisbursedIn(startDate, endDate);
     }
+
+    public List<MostCharitablePeopleDTO> statisticMostCharitablePeople(String charityEventId){
+        return eventStatisticRepository.statisticTop10CharitablePeople(UUID.fromString(charityEventId));
+    }
 }
