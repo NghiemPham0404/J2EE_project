@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -60,13 +62,15 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-    public static void main(String[] args) {
-        SecurityConfig securityConfig = new SecurityConfig();
-        String rawPassword = "123123";
-        String encodedPassword = securityConfig.passwordEncoder().encode(rawPassword);
-        System.out.println("Encoded password: " + encodedPassword);
-//        boolean valid = securityConfig.passwordEncoder().matches(rawPassword, "$2a$10$JOS.U7DKSQgWj9nC5ey5lOgYTo.EVOHcfIwK3Aasdfsa9lb179BvlP0C");
-//        System.out.println(valid);
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:8081") // Frontend origin
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+            }
+        };
     }
 }
