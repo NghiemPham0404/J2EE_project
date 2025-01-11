@@ -18,7 +18,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-    @PreAuthorize("hasAuthority('Role Management read')")
+//    @PreAuthorize("hasAuthority('Role Management read')")
     @Operation(summary = "Lấy tất cả Role")
     @GetMapping("/all")
     public ResponseEntity<Object> getAllRoles() {

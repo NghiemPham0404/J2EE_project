@@ -46,6 +46,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/email/**").permitAll()
                                 .requestMatchers("/api/posts","/api/posts/search","api/posts/approved/**","/api/posts/post/*/viewed").permitAll()
                                 .requestMatchers("/api/charity-events/transfer").permitAll()
+                                .requestMatchers("/api/charity-events/*/all-transfer").permitAll()
                                 .requestMatchers("/api/statistic/charity-event/*/top-10").permitAll()
                                 .anyRequest().authenticated()
 
